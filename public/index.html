@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korean Soju-JJAN 🍻</title>
+    <title>Soju-JJAN</title>
     <style>
         @font-face {
             font-family: 'DungGeunMo';
@@ -14,13 +14,11 @@
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
             font-family: 'DungGeunMo', sans-serif;
-            background-color: #ffffff; /* 하얀색 배경으로 변경 */
+            background-color: #ffffff;
         }
 
-        /* 메인 영역 */
         #main-area { width: 100%; height: 100%; position: relative; }
 
-        /* UI 컨테이너 (왼쪽 상단) */
         .ui-container {
             position: absolute; top: 20px; left: 20px;
             display: flex; flex-direction: column; gap: 10px; z-index: 20;
@@ -28,46 +26,34 @@
 
         .btn-style {
             padding: 8px 12px; font-family: 'DungGeunMo', sans-serif; font-size: 0.9rem;
-            background: #fff; border: 3px solid #000; box-shadow: 4px 4px 0px #000;
-            cursor: pointer; text-decoration: none; color: #000; width: max-content;
+            background: #fff; border: 3px solid #000; cursor: pointer; color: #000; width: max-content;
         }
 
-        /* 🌟 하단 중앙 채팅창 컨테이너 */
+        /* 채팅 및 게시판 공통 컨테이너 */
         #chat-wrapper {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 400px;
-            display: flex; flex-direction: column;
-            gap: 5px; z-index: 20;
+            width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 채팅 로그 및 입력창 공통 디자인 */
-        .chat-box {
-            background: rgba(200, 200, 200, 0.6); /* 투명한 회색 */
-            border: 2px solid #000;
-            padding: 10px;
-        }
+        .chat-box { background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
 
-        #chat-log {
-            height: 100px; overflow-y: auto;
-            margin-bottom: 5px;
-        }
+        /* 게시판 버튼 스타일 */
+        #board-trigger { margin-bottom: 5px; cursor: pointer; text-align: center; font-weight: bold; }
 
-        .log-item { font-size: 0.7rem; margin-bottom: 5px; }
+        #chat-log { height: 120px; overflow-y: auto; margin-bottom: 5px; }
+
+        .log-item { font-size: 0.9rem; margin-bottom: 5px; }
         .log-nickname { 
-            background: #12D80F; color: #fff; padding: 2px 5px; margin-right: 5px; font-weight: bold;
+            background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold;
         }
 
         .input-wrapper { display: flex; gap: 5px; }
-        input[type="text"] {
-            flex: 1; padding: 8px; border: 2px solid #000; outline: none; font-family: 'DungGeunMo';
-        }
-        #sendBtn {
-            padding: 8px 15px; background: #12D80F; color: #fff; 
-            border: 2px solid #000; cursor: pointer; font-family: 'DungGeunMo'; font-weight: bold;
-        }
+        input[type="text"] { flex: 1; padding: 8px; border: 2px solid #000; outline: none; font-family: 'DungGeunMo'; }
+        #sendBtn { padding: 8px 15px; background: #50C878; color: #000; border: 2px solid #000; cursor: pointer; font-family: 'DungGeunMo'; font-weight: bold; }
 
-        /* 팝업 스타일 생략 (기존과 동일) */
-        .popup { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; background: #fff; border: 4px solid #000; z-index: 100; padding: 15px; flex-direction: column; gap: 10px; }
+        /* 팝업 스타일 */
+        .popup { display: none; position: absolute; top: 50%; right: 50px; transform: translateY(-50%); 
+                 width: 300px; background: #fff; border: 4px solid #000; z-index: 100; padding: 15px; flex-direction: column; gap: 10px; }
     </style>
 </head>
 <body>
@@ -75,22 +61,26 @@
     <div id="main-area">
         <div class="ui-container">
             <button id="noticeToggleBtn" class="btn-style">📢 Notice</button>
-            <button id="boardToggleBtn" class="btn-style">✨ Drop a vibe</button>
         </div>
 
-        <!-- 하단 중앙 채팅창 -->
         <div id="chat-wrapper">
+            <div id="board-trigger" class="chat-box" onclick="document.getElementById('boardPopup').style.display='flex'">
+                Jeo Gi Yo!🙋🏻‍♀️
+            </div>
             <div id="chat-log" class="chat-box"></div>
             <div class="input-wrapper">
-                <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off">
+                <input type="text" id="chatInput" placeholder="Message..." autocomplete="off">
                 <button id="sendBtn">JJAN!</button>
             </div>
         </div>
     </div>
 
-    <!-- 팝업들 (HTML 구조) -->
-    <div id="noticePopup" class="popup">...</div>
-    <div id="boardPopup" class="popup">...</div>
+    <div id="boardPopup" class="popup">
+        <div style="display:flex; justify-content:space-between;"><b>Jeo Gi Yo Request</b><button onclick="this.parentElement.parentElement.style.display='none'">X</button></div>
+        <input type="text" id="boardInput" placeholder="Type request...">
+        <button id="boardSubmitBtn" class="btn-style">Post</button>
+        <div id="boardList" style="height: 200px; overflow-y: auto; border: 1px solid #000; padding: 5px;"></div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -98,26 +88,37 @@
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatLog = document.getElementById('chat-log');
+        const boardSubmitBtn = document.getElementById('boardSubmitBtn');
+        const boardInput = document.getElementById('boardInput');
+        const boardList = document.getElementById('boardList');
 
-        function appendToChatLog(nickname, text) {
+        socket.on('chat message', (data) => {
             const div = document.createElement('div');
-            div.classList.add('log-item');
-            div.innerHTML = `<span class="log-nickname">${nickname}</span> ${text}`;
+            div.className = 'log-item';
+            div.innerHTML = `<span class="log-nickname">${data.nickname}</span> ${data.message}`;
             chatLog.appendChild(div);
             chatLog.scrollTop = chatLog.scrollHeight;
-        }
+        });
 
-        socket.on('chat message', (data) => { appendToChatLog(data.nickname, data.message); });
-
-        function sendMessage() {
-            const text = chatInput.value.trim();
-            if(!text) return;
-            socket.emit('chat message', { nickname: "User", message: text });
+        sendBtn.onclick = () => {
+            socket.emit('chat message', { nickname: "User", message: chatInput.value });
             chatInput.value = '';
-        }
+        };
 
-        sendBtn.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+        boardSubmitBtn.onclick = () => {
+            socket.emit('save board message', { nickname: "Guest", message: boardInput.value });
+            boardInput.value = '';
+        };
+
+        socket.on('load board', (messages) => {
+            boardList.innerHTML = '';
+            messages.forEach(m => {
+                const item = document.createElement('div');
+                item.style.marginBottom = "5px";
+                item.innerHTML = `<b>[${m.nickname}]</b> ${m.message}`;
+                boardList.appendChild(item);
+            });
+        });
     </script>
 </body>
 </html>
