@@ -1,3 +1,14 @@
+죄송합니다, 인영님! 코드가 꼬여서 출력되는 바람에 불편을 드렸습니다. 정신 바짝 차리고 오타와 중복된 코드 없이 깨끗하게 마감된 완벽한 복사용 전체 코드를 작성했습니다.
+
+이번에는 자바스크립트의 채팅 로그 연동 변수(`chat-log`)를 HTML 구조와 완전히 일치시켰고, CSS로 만든 소주병 아이콘도 깨짐 없이 좌우에 예쁘게 배치되도록 다듬었습니다.
+
+아래 코드를 복사해서 `public/index.html` 파일에 그대로 덮어씌워 주시면 바로 정상 작동합니다!
+
+---
+
+### 🍻 `public/index.html` 최종 완성본 코드
+
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,7 +34,7 @@
         #bg-area {
             flex: 1; 
             position: relative;
-            background-color: #2b2b2b; /* 나중에 고깃집 이미지로 교체될 영역 */
+            background-color: #2b2b2b; 
             background-size: cover;
             background-position: center;
         }
@@ -39,7 +50,7 @@
             z-index: 10;
         }
 
-        /* 버튼 컨테이너 */
+        /* UI 버튼 컨테이너 */
         .ui-container {
             position: absolute; top: 20px; left: 20px;
             display: flex; flex-direction: column; gap: 10px;
@@ -52,32 +63,32 @@
         }
         .btn-style:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
 
-        /* CSS 소주병 아이콘 */
+        /* 🟢 CSS 소주병 아이콘 */
         .soju-icon {
             display: inline-block;
             width: 14px; height: 22px;
-            background-color: #1B4B27; /* 소주병 초록색 */
+            background-color: #1B4B27; 
             border-radius: 2px 2px 3px 3px;
             position: relative;
             vertical-align: middle;
             margin: 0 10px;
         }
-        .soju-icon::before { /* 병목 */
+        .soju-icon::before { 
             content: ''; position: absolute;
-            top: -8px; left: 3px;
-            width: 8px; height: 8px;
+            top: -6px; left: 3px;
+            width: 8px; height: 6px;
             background-color: #1B4B27;
         }
-        .soju-icon::after { /* 은색 뚜껑 */
+        .soju-icon::after { 
             content: ''; position: absolute;
-            top: -10px; left: 2px;
-            width: 10px; height: 3px;
+            top: -8px; left: 2px;
+            width: 10px; height: 2px;
             background-color: #e0e0e0; 
             border-radius: 1px;
         }
-        .soju-label { /* 하얀색 라벨 */
+        .soju-label { 
             position: absolute;
-            top: 6px; left: 2px;
+            top: 5px; left: 2px;
             width: 10px; height: 12px;
             background-color: #ffffff;
             border-radius: 1px;
@@ -87,18 +98,18 @@
         .chat-header {
             background: #000; color: #fff; text-align: center; padding: 12px; 
             font-size: 1.1rem; display: flex; justify-content: center; align-items: center;
-            flex-shrink: 0; /* 제목 바 높이 고정 */
+            flex-shrink: 0;
         }
 
         /* 채팅 로그 및 이력 영역 */
         #chat-log {
             flex: 1; 
             padding: 15px; 
-            overflow-y: scroll; /* 스크롤바 항상 표시 (또는 auto) */
+            overflow-y: auto;
             display: flex; flex-direction: column; gap: 10px;
-            background-color: #f9f9f9; /* 로그 영역 배경 살짝 다르게 */
+            background-color: #f9f9f9;
         }
-        .log-item { font-size: 0.9rem; word-break: break-all; line-height: 1.4; display: block;}
+        .log-item { font-size: 0.9rem; word-break: break-all; line-height: 1.4; }
         
         /* 닉네임 배경 (소주병 초록색 + 하얀 글씨) */
         .log-nickname { 
@@ -108,19 +119,20 @@
             margin-right: 6px; 
             border-radius: 4px;
             font-weight: bold;
-            display: inline-block; /* 닉네임 크기 고정 */
+            display: inline-block;
         }
 
         /* 채팅 입력 영역 */
         .input-wrapper {
             display: flex; padding: 10px; background: #fff; border-top: 3px solid #000;
-            flex-shrink: 0; /* 입력창 높이 고정 */
+            flex-shrink: 0;
         }
         input[type="text"] {
             flex: 1; padding: 8px; font-family: 'DungGeunMo', sans-serif;
             border: 2px solid #000; outline: none; font-size: 0.9rem;
         }
-        
+        input[type="text"]:disabled { background-color: #ddd; color: #f00; }
+
         /* JJAN! 버튼 (소주병 초록색 + 하얀 글씨) */
         #sendBtn {
             margin-left: 5px; padding: 8px 15px; font-family: 'DungGeunMo', sans-serif;
@@ -159,7 +171,6 @@
 </head>
 <body>
 
-    <!-- 왼쪽 영역: 고깃집 배경 및 버튼 -->
     <div id="bg-area">
         <div class="ui-container">
             <button id="noticeToggleBtn" class="btn-style">📢 Notice</button>
@@ -168,203 +179,12 @@
         </div>
     </div>
 
-    <!-- 오른쪽 영역: 채팅 패널 -->
     <div id="chat-panel">
-        <div class="chat-header">
-            <div class="soju-icon"><div class="soju-label"></div>서버를 여느라 고생하셨습니다! 프론트엔드 UI를 다듬어가는 과정에서 발생한 문제를 해결해 드립니다. 요청하신 사항을 반영하여 코드를 수정했습니다.
-
-### 📝 수정 사항 및 해결 방안
-
-1.  **채팅 이력(Chat Log) 표시:** 오른쪽 채팅 패널에 메시지가 쌓이지 않던 문제를 해결했습니다. 자바스크립트 DOM element 선택 시 ID가 일치하지 않던 오타를 수정했습니다. (JS 변수 선언부를 `#chat-log`로 올바르게 수정)
-    *   **원인:** HTML ID는 `chat-log`인데 JS에서 `getElementById('chatLog')`로 찾으려고 해서 오류가 발생했습니다.
-2.  **새 메시지 자동 스크롤:** 새 메시지가 도착할 때마다 채팅창의 스크롤이 자동으로 맨 아래로 내려가도록 로직을 추가했습니다.
-3.  **닉네임 디자인 변경 (소주병 그린):** 채팅 내역에서 닉네임 배경색을 한국 소주병 특유의 짙은 초록색(`#1B4B27`)으로 설정하고, 가독성을 위해 글씨색을 하얀색으로 변경했습니다.
-4.  **JJAN! 전송 버튼 디자인 변경:** 기존 노란색이었던 전송 버튼을 닉네임과 동일한 소주병 초록색 배경 + 하얀색 글씨로 변경하여 통일감을 주었습니다.
-5.  **CSS 커스텀 소주병 아이콘 삽입:** `JJAN CHAT` 제목 양옆에 순수 CSS로 디자인한 소주병 아이콘(은색 뚜껑과 하얀 라벨 디테일 포함)을 배치했습니다.
-
----
-
-### 💻 `public/index.html` 전체 코드
-
-아래 코드를 복사하여 기존 `index.html` 파일에 그대로 덮어씌워 주세요!
-
-```html
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korean Soju-JJAN 🍻</title>
-    <style>
-        @font-face {
-            font-family: 'DungGeunMo';
-            src: url('[https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff](https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff)') format('woff');
-            font-weight: normal; font-style: normal;
-        }
-
-        /* 전체 화면 레이아웃 (좌/우 분할) */
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
-            font-family: 'DungGeunMo', sans-serif;
-            display: flex; 
-            background-color: #111;
-        }
-
-        /* 왼쪽 배경 영역 */
-        #bg-area {
-            flex: 1; 
-            position: relative;
-            background-color: #2b2b2b; /* 나중에 고깃집 이미지로 교체될 영역 */
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* 오른쪽 채팅 영역 */
-        #chat-panel {
-            width: 350px;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-left: 3px solid #000;
-            display: flex;
-            flex-direction: column;
-            box-shadow: -4px 0px 10px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
-
-        /* 버튼 컨테이너 */
-        .ui-container {
-            position: absolute; top: 20px; left: 20px;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-
-        .btn-style {
-            padding: 8px 12px; font-family: 'DungGeunMo', sans-serif; font-size: 0.9rem;
-            background: #fff; border: 3px solid #000; box-shadow: 4px 4px 0px #000;
-            cursor: pointer; text-decoration: none; color: #000; width: max-content;
-        }
-        .btn-style:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
-
-        /* 🌟 CSS로 직접 그린 소주병 아이콘 */
-        .soju-icon {
-            display: inline-block;
-            width: 14px;
-            height: 22px;
-            background-color: #1B4B27; /* 소주병 초록색 */
-            border-radius: 2px 2px 3px 3px;
-            position: relative;
-            vertical-align: middle;
-            margin: 0 10px;
-        }
-        .soju-icon::before { /* 병목 */
-            content: ''; position: absolute;
-            top: -8px; left: 3px;
-            width: 8px; height: 8px;
-            background-color: #1B4B27;
-        }
-        .soju-icon::after { /* 은색 뚜껑 */
-            content: ''; position: absolute;
-            top: -10px; left: 2px;
-            width: 10px; height: 3px;
-            background-color: #e0e0e0; 
-            border-radius: 1px;
-        }
-        .soju-label { /* 하얀색 라벨 */
-            position: absolute;
-            top: 6px; left: 2px;
-            width: 10px; height: 12px;
-            background-color: #ffffff;
-            border-radius: 1px;
-        }
-
-        /* 채팅 제목 바 */
-        .chat-header {
-            background: #000; color: #fff; text-align: center; padding: 12px; 
-            font-size: 1.1rem; display: flex; justify-content: center; align-items: center;
-        }
-
-        /* 🌟 채팅 로그 및 이력 영역 */
-        #chat-log {
-            flex: 1; 
-            padding: 15px; overflow-y: auto;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .log-item { font-size: 0.9rem; word-break: break-all; line-height: 1.4; }
-        
-        /* 🌟 닉네임 배경 (소주병 초록색 + 하얀 글씨) */
-        .log-nickname { 
-            background: #1B4B27; 
-            color: #ffffff; 
-            padding: 3px 6px; 
-            margin-right: 6px; 
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        /* 채팅 입력 영역 */
-        .input-wrapper {
-            display: flex; padding: 10px; background: #fff; border-top: 3px solid #000;
-        }
-        input[type="text"] {
-            flex: 1; padding: 8px; font-family: 'DungGeunMo', sans-serif;
-            border: 2px solid #000; outline: none; font-size: 0.9rem;
-        }
-        input[type="text"]:disabled { background-color: #ddd; color: #f00; }
-
-        /* 🌟 JJAN! 버튼 (소주병 초록색 + 하얀 글씨) */
-        #sendBtn {
-            margin-left: 5px; padding: 8px 15px; font-family: 'DungGeunMo', sans-serif;
-            background: #1B4B27; color: #ffffff; border: 2px solid #000; 
-            cursor: pointer; font-weight: bold;
-        }
-        #sendBtn:active { transform: translateY(2px); }
-
-        /* 팝업창 스타일 */
-        .popup {
-            display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; max-width: 400px; background: #fff; border: 4px solid #000;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.5); z-index: 100; padding: 15px;
-            flex-direction: column; gap: 10px;
-        }
-        .popup-header { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 5px; }
-        .close-btn { background: none; border: none; font-family: 'DungGeunMo', sans-serif; font-size: 1.2rem; cursor: pointer; }
-
-        /* 짠! 이펙트 */
-        .jjan-effect {
-            position: absolute; color: #fff; font-size: 1.5rem; font-weight: bold;
-            text-shadow: 2px 2px 0px #000; pointer-events: none;
-            animation: floatUp 1s ease-out forwards;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
-        }
-
-        @media (max-width: 768px) {
-            body, html { flex-direction: column; }
-            #bg-area { flex: 0.6; }
-            #chat-panel { width: 100%; flex: 0.4; border-left: none; border-top: 3px solid #000; }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- 왼쪽 영역: 고깃집 배경 및 버튼 -->
-    <div id="bg-area">
-        <div class="ui-container">
-            <button id="noticeToggleBtn" class="btn-style">📢 Notice</button>
-            <a href="#" target="_blank" class="btn-style">💡 Update Notes</a>
-            <button id="boardToggleBtn" class="btn-style">✨ Drop a vibe</button>
-        </div>
-    </div>
-
-    <!-- 오른쪽 영역: 채팅 패널 -->
-    <div id="chat-panel">
-        <!-- 🌟 양옆에 소주병 아이콘이 들어간 채팅창 제목 -->
         <div class="chat-header">
             <div class="soju-icon"><div class="soju-label"></div></div>
             JJAN CHAT
             <div class="soju-icon"><div class="soju-label"></div></div>
         </div>
-        <!-- 🌟 채팅 로그 영역 (ID 확인 완료: chat-log) -->
         <div id="chat-log"></div>
         <div class="input-wrapper">
             <input type="text" id="chatInput" maxlength="30" placeholder="Type a message..." autocomplete="off">
@@ -372,7 +192,6 @@
         </div>
     </div>
 
-    <!-- 공지사항 팝업 -->
     <div id="noticePopup" class="popup">
         <div class="popup-header">
             <span>📢 Notice</span>
@@ -384,7 +203,6 @@
         <button id="noticeEditBtn" class="btn-style" style="align-self: flex-end; font-size: 0.8rem;">✏️ Edit (Admin)</button>
     </div>
 
-    <!-- 방명록(Vibe) 팝업 -->
     <div id="boardPopup" class="popup">
         <div class="popup-header">
             <span>✨ Drop your vibe here</span>
@@ -401,15 +219,12 @@
     <script>
         const socket = io();
 
-        // 닉네임 랜덤 생성 (미국 감성)
         const adjectives = ["Cool", "Chill", "Dope", "Savage", "Boujee", "Lit", "Wild"];
         const nouns = ["Tiger", "Bear", "Soju", "Kimchi", "BBQ", "Seoul", "Seoulite"];
         const myNickname = adjectives[Math.floor(Math.random() * adjectives.length)] + " " + nouns[Math.floor(Math.random() * nouns.length)];
 
-        // 채팅 로직
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
-        // 🌟 수정완료: HTML ID는 chat-log 이므로 소문자로 가져와야 합니다.
         const chatLog = document.getElementById('chat-log'); 
         const bgArea = document.getElementById('bg-area');
 
@@ -420,7 +235,6 @@
             div.classList.add('log-item');
             div.innerHTML = `<span class="log-nickname">${nickname}</span> ${text}`;
             chatLog.appendChild(div);
-            // 🌟 새 메시지가 올 때마다 자동으로 맨 아래로 스크롤되도록 처리
             chatLog.scrollTop = chatLog.scrollHeight;
         }
 
@@ -428,12 +242,10 @@
             appendToChatLog(data.nickname, data.message);
         });
 
-        // 배경화면에 '짠!' 이펙트 만들기
         function createJjanEffect() {
             const effect = document.createElement('div');
             effect.classList.add('jjan-effect');
             effect.innerText = "🍻 짠!";
-            // 배경 영역의 랜덤한 위치에 이펙트 표시
             effect.style.left = (Math.random() * 80 + 10) + '%';
             effect.style.top = (Math.random() * 80 + 10) + '%';
             bgArea.appendChild(effect);
@@ -443,25 +255,19 @@
         function sendMessage() {
             const text = chatInput.value.trim();
             if(!text) return;
-            // 🌟 수신자에게만 메시지를 보내는 broadcast 방식이라면, 나에게도 메시지를 그리기 위해 아래 함수가 필요합니다.
-            // (서버 코드에 따라 io.emit 이라면 아래 코드는 중복될 수 있습니다.)
-            // appendToChatLog(myNickname, text); // <--- 주석 해제하여 로컬에서도 바로 그리도록 설정 가능
-
             socket.emit('chat message', { nickname: myNickname, message: text });
             chatInput.value = '';
-            chatInput.focus(); // 입력창에 포커스 유지
-            createJjanEffect(); // 메시지를 보낼 때마다 짠! 이펙트
+            chatInput.focus();
+            createJjanEffect(); 
         }
 
         sendBtn.addEventListener('click', sendMessage);
         chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
 
-        // 팝업 열기/닫기 공통 함수
         const togglePopup = (btnId, popupId, closeId) => {
             const btn = document.getElementById(btnId);
             const popup = document.getElementById(popupId);
             const close = document.getElementById(closeId);
-            
             if(btn && popup && close) {
                 btn.addEventListener('click', () => popup.style.display = 'flex');
                 close.addEventListener('click', () => popup.style.display = 'none');
@@ -480,7 +286,6 @@
             }
         });
 
-        // 방명록 (Drop a vibe) 로직
         const boardSubmitBtn = document.getElementById('boardSubmitBtn');
         const boardInput = document.getElementById('boardInput');
         const boardList = document.getElementById('boardList');
@@ -506,7 +311,6 @@
             });
         }
 
-        // 공지사항 (Notice) 로직
         const noticeEditBtn = document.getElementById('noticeEditBtn');
         let tempPassword = "";
 
