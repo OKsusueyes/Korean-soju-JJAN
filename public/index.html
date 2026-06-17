@@ -11,9 +11,11 @@
             font-weight: normal; font-style: normal;
         }
 
+        /* 🌟 전체 폰트 둥근모꼴 강제 적용 */
+        * { font-family: 'DungGeunMo', sans-serif; }
+
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
-            font-family: 'DungGeunMo', sans-serif;
             background-color: #ffffff;
         }
 
@@ -28,32 +30,50 @@
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 🌟 저기요! (Jeo Gi Yo) 디자인 */
+        /* 🌟 저기요! 버튼 너비 최적화 */
         #board-trigger { 
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
-            padding: 10px; text-align: center; font-weight: bold; font-size: 1.3rem; 
-            cursor: pointer; width: 80%; margin: 0 auto;
+            padding: 10px 20px; text-align: center; font-weight: bold; font-size: 1.3rem; 
+            cursor: pointer; width: max-content; margin: 0 auto; /* 글씨에 맞게 크기 조절 */
         }
 
         #chat-log { height: 120px; overflow-y: auto; background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
         .log-item { font-size: 0.9rem; margin-bottom: 5px; }
-        .log-nickname { background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold; }
+        
+        /* 닉네임 배경 (소주병 초록색 + 검정 글씨) */
+        .log-nickname { background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold; display: inline-block; border-radius: 4px; }
 
         .input-wrapper { display: flex; gap: 5px; }
-        input[type="text"] { flex: 1; padding: 8px; border: 2px solid #000; outline: none; font-family: 'DungGeunMo'; }
+        input[type="text"] { flex: 1; padding: 8px; border: 2px solid #000; outline: none; }
         #sendBtn { padding: 8px 15px; background: #50C878; color: #000; border: 2px solid #000; cursor: pointer; font-weight: bold; }
 
-        /* 🌟 영수증 결재판 팝업 스타일 */
-        .popup { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-                 width: 320px; background: #333; padding: 20px; border-radius: 5px; z-index: 100; flex-direction: column; gap: 10px; 
-                 box-shadow: 10px 10px 0px rgba(0,0,0,0.3); }
-        .receipt-paper { background: #fff; padding: 20px; border: 1px solid #ccc; font-family: 'Courier New', Courier, monospace; }
-        .close-btn { background: none; border: none; cursor: pointer; font-family: 'DungGeunMo'; }
+        /* 공통 팝업 스타일 */
+        .popup { 
+            display: none; position: absolute; background: #333; padding: 20px; border-radius: 5px; z-index: 100; 
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.3); border: 4px solid #000;
+        }
+        
+        /* 🌟 영수증 결재판 팝업 위치 변경 (오른쪽 길게) */
+        #boardPopup {
+            top: 20px; left: auto; right: 20px; transform: none; 
+            width: 320px; height: calc(100% - 40px); /* 상하 여백 20px씩 제외한 전체 높이 */
+            display: none; flex-direction: column; gap: 10px; box-sizing: border-box;
+        }
 
-        /* 말풍선 이펙트 */
+        .receipt-paper { 
+            background: #fff; padding: 20px; border: 1px solid #ccc; 
+            flex: 1; display: flex; flex-direction: column; overflow: hidden; /* 영역 가득 채우기 */
+        }
+        
+        .close-btn { background: none; border: none; cursor: pointer; }
+
+        /* 🌟 입력창 안쪽 회색 기울임 글씨 적용 */
+        #boardInput::placeholder { font-style: italic; color: #888; }
+
+        /* 짠! 말풍선 이펙트 */
         .jjan-effect {
             position: absolute; padding: 10px; background: #fff; border: 2px solid #000;
-            border-radius: 50% 50% 50% 0; font-weight: bold; animation: popUp 0.5s ease-out forwards;
+            border-radius: 50% 50% 50% 0; font-weight: bold; animation: popUp 0.5s ease-out forwards; pointer-events: none;
         }
         @keyframes popUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
     </style>
@@ -66,6 +86,7 @@
         </div>
 
         <div id="chat-wrapper">
+            <!-- 🌟 저기요 버튼 -->
             <div id="board-trigger" onclick="document.getElementById('boardPopup').style.display='flex'">Jeo Gi Yo!🙋🏻‍♀️</div>
             <div id="chat-log"></div>
             <div class="input-wrapper">
@@ -77,17 +98,42 @@
 
     <!-- 영수증 게시판 팝업 -->
     <div id="boardPopup" class="popup">
-        <div style="color: white; display: flex; justify-content: space-between;"><b>Reciept</b><button class="close-btn" style="color:white" onclick="document.getElementById('boardPopup').style.display='none'">X</button></div>
-        <div class="receipt-paper">
-            <input type="text" id="boardInput" style="width:100%" placeholder="Add Order...">
-            <button id="boardSubmitBtn" class="btn-style">Add Order</button>
-            <div id="boardList" style="margin-top:10px; height: 150px; overflow-y: auto;"></div>
+        <div style="color: white; display: flex; justify-content: space-between;">
+            <b>Receipt</b>
+            <button class="close-btn" style="color:white" onclick="document.getElementById('boardPopup').style.display='none'">X</button>
         </div>
+        <div class="receipt-paper">
+            <!-- 🌟 Add Order 버튼을 입력창 위로 올리고 중앙 정렬 -->
+            <button id="boardSubmitBtn" class="btn-style" style="margin: 0 auto 15px auto;">Add Order</button>
+            <input type="text" id="boardInput" style="width:100%; padding:8px; border:2px solid #000; outline:none; box-sizing:border-box;" placeholder="Text...">
+            
+            <hr style="width: 100%; border: 1px dashed #ccc; margin: 15px 0;">
+            
+            <div id="boardList" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
+        </div>
+    </div>
+
+    <!-- 공지사항 팝업 추가 (기존 구조 복구) -->
+    <div id="noticePopup" class="popup" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 320px;">
+        <div style="color: white; display: flex; justify-content: space-between;">
+            <b>📢 Notice</b>
+            <button class="close-btn" style="color:white" onclick="document.getElementById('noticePopup').style.display='none'">X</button>
+        </div>
+        <div id="noticeContent" style="padding: 15px; background: #fff; border: 2px solid #000; min-height: 100px; white-space: pre-wrap; margin-top: 10px;">
+            Loading...
+        </div>
+        <button id="noticeEditBtn" class="btn-style" style="align-self: flex-end; margin-top: 10px; font-size: 0.8rem;">✏️ Edit (Admin)</button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
+
+        // 🌟 무작위 닉네임 생성 로직 추가
+        const adjectives = ["Cool", "Chill", "Dope", "Savage", "Boujee", "Lit", "Wild"];
+        const nouns = ["Tiger", "Bear", "Soju", "Kimchi", "BBQ", "Seoul", "Seoulite"];
+        const myNickname = adjectives[Math.floor(Math.random() * adjectives.length)] + " " + nouns[Math.floor(Math.random() * nouns.length)];
+
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatLog = document.getElementById('chat-log');
@@ -95,8 +141,8 @@
         // 채팅 전송
         function sendMessage() {
             const text = chatInput.value.trim();
-            if(!text) return; // 빈 채팅 금지
-            socket.emit('chat message', { nickname: "Guest", message: text });
+            if(!text) return; 
+            socket.emit('chat message', { nickname: myNickname, message: text });
             chatInput.value = '';
         }
 
@@ -120,21 +166,72 @@
             setTimeout(() => eff.remove(), 800);
         });
 
-        // ESC로 팝업 닫기
-        window.onkeydown = (e) => { if(e.key === 'Escape') document.getElementById('boardPopup').style.display = 'none'; };
+        // ESC로 모든 팝업 닫기
+        window.addEventListener('keydown', (e) => { 
+            if(e.key === 'Escape') {
+                document.getElementById('boardPopup').style.display = 'none'; 
+                document.getElementById('noticePopup').style.display = 'none';
+            }
+        });
 
-        // 게시판 로직
+        document.getElementById('noticeToggleBtn').onclick = () => {
+            document.getElementById('noticePopup').style.display = 'flex';
+        }
+
+        // 🌟 영수증 게시판 전송 로직
         document.getElementById('boardSubmitBtn').onclick = () => {
-            const text = document.getElementById('boardInput').value;
+            const text = document.getElementById('boardInput').value.trim();
             if(!text) return;
-            socket.emit('save board message', { nickname: "Guest", message: text });
+            socket.emit('save board message', { nickname: myNickname, message: text });
             document.getElementById('boardInput').value = '';
         };
 
+        // 🌟 영수증 내역 불러오기 (채팅창과 동일한 디자인 구조 사용)
         socket.on('load board', (msgs) => {
             const list = document.getElementById('boardList');
-            list.innerHTML = msgs.map(m => `<div>- ${m.message}</div>`).join('');
+            list.innerHTML = msgs.map(m => `
+                <div class="log-item" style="margin-bottom: 10px;">
+                    <span class="log-nickname">${m.nickname}</span> ${m.message}
+                </div>
+            `).join('');
         });
+
+        // 공지사항 (Notice) 로직
+        const noticeEditBtn = document.getElementById('noticeEditBtn');
+        let tempPassword = "";
+
+        socket.on('load notice', (noticeText) => {
+            const content = document.getElementById('noticeContent');
+            if(content) {
+                if (content.tagName === 'TEXTAREA') {
+                    content.outerHTML = `<div id="noticeContent" style="padding: 15px; background: #fff; border: 2px solid #000; min-height: 100px; white-space: pre-wrap; margin-top: 10px;"></div>`;
+                    if(noticeEditBtn) noticeEditBtn.innerText = "✏️ Edit (Admin)";
+                }
+                const updatedContent = document.getElementById('noticeContent');
+                if(updatedContent) updatedContent.innerText = noticeText;
+            }
+        });
+
+        socket.on('notice error', () => alert("Incorrect Password! 🙅‍♂️"));
+
+        if(noticeEditBtn) {
+            noticeEditBtn.addEventListener('click', () => {
+                const content = document.getElementById('noticeContent');
+                if(content) {
+                    if (content.tagName === 'DIV') {
+                        const pwd = prompt("Enter Admin Password:");
+                        if (pwd) {
+                            tempPassword = pwd;
+                            const text = content.innerText;
+                            content.outerHTML = `<textarea id="noticeContent" style="padding: 15px; width: 100%; box-sizing: border-box; font-family: 'DungGeunMo'; border: 2px solid #000; min-height: 100px; resize: none; margin-top: 10px;">${text}</textarea>`;
+                            noticeEditBtn.innerText = "💾 Save";
+                        }
+                    } else {
+                        socket.emit('update notice', { password: tempPassword, notice: content.value });
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
