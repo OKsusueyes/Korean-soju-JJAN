@@ -11,7 +11,7 @@
             font-weight: normal; font-style: normal;
         }
 
-        /* 🌟 전체 폰트 둥근모꼴 강제 적용 */
+        /* 전체 폰트 둥근모꼴 강제 적용 */
         * { font-family: 'DungGeunMo', sans-serif; }
 
         body, html {
@@ -86,7 +86,7 @@
         </div>
 
         <div id="chat-wrapper">
-            <div id="board-trigger" onclick="document.getElementById('boardPopup').style.display='flex'">Jeo Gi Yo!!🙋🏻‍♀️</div>
+            <div id="board-trigger" onclick="document.getElementById('boardPopup').style.display='flex'">Jeo Gi Yo!🙋🏻‍♀️</div>
             <div id="chat-log"></div>
             <div class="input-wrapper">
                 <input type="text" id="chatInput" maxlength="30" placeholder="Message... (Max 30 chars)" autocomplete="off">
@@ -103,7 +103,7 @@
         <div class="receipt-paper">
             <button id="boardSubmitBtn" class="btn-style" style="margin: 0 auto 15px auto;">Add Order</button>
             
-            <input type="text" id="boardInput" style="width:80%; padding:6px; border:2px solid #000; outline:none; box-sizing:border-box; margin: 0 auto; display: block; text-align: center;" placeholder="Text...">
+            <input type="text" id="boardInput" style="width:80%; padding:4px 0; border:none; border-bottom:1px solid #aaa; background:transparent; outline:none; box-sizing:border-box; margin: 0 auto; display: block; text-align: center; font-size:0.9rem;" placeholder="Text...">
             
             <hr style="width: 100%; border: 1px dashed #ccc; margin: 15px 0;">
             
@@ -126,7 +126,7 @@
     <script>
         const socket = io();
 
-        // 🌟 닉네임 변경: Guest + 숫자 2자리
+        // 닉네임 변경: Guest + 숫자 2자리
         const randomNum = String(Math.floor(Math.random() * 100)).padStart(2, '0');
         const myNickname = "Guest" + randomNum;
 
@@ -155,7 +155,7 @@
             // 짠! 말풍선 효과
             const eff = document.createElement('div');
             eff.className = 'jjan-effect';
-            eff.innerText = "JJAN!";
+            eff.innerText = "짠!";
             eff.style.left = (Math.random() * 60 + 20) + '%';
             eff.style.top = (Math.random() * 60 + 20) + '%';
             document.body.appendChild(eff);
@@ -182,7 +182,7 @@
             document.getElementById('boardInput').value = '';
         };
 
-        // 🌟 영수증 내역 불러오기 (글자 크기 축소 적용)
+        // 영수증 내역 불러오기 (글자 크기 축소 적용)
         socket.on('load board', (msgs) => {
             const list = document.getElementById('boardList');
             list.innerHTML = msgs.map(m => `
