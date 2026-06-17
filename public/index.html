@@ -30,7 +30,7 @@
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 저기요! 버튼 너비 최적화 */
+        /* 저기요! 버튼 */
         #board-trigger { 
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
             padding: 10px 20px; text-align: center; font-weight: bold; font-size: 1.3rem; 
@@ -53,24 +53,18 @@
             box-shadow: 10px 10px 0px rgba(0,0,0,0.3); border: 4px solid #000;
         }
         
-        /* 영수증 결재판 팝업 위치 변경 (오른쪽 길게) */
+        /* 🌟 영수증 결재판 팝업 위치 변경 (오른쪽 길게, 높이 식 수정) */
         #boardPopup {
             top: 20px; left: auto; right: 20px; transform: none; 
-            width: 320px; height: (100% - 40%)px;
+            width: 320px; height: calc(100% - 40px);
             display: none; flex-direction: column; gap: 10px; box-sizing: border-box;
         }
-        
+
         .receipt-paper { 
             background: #fff; padding: 20px; border: 1px solid #ccc; 
             flex: 1; display: flex; flex-direction: column; overflow: hidden; 
         }
         
-        /* 입력창 고정 영역 (리스트와 겹치지 않게) */
-        .input-area { flex: 0; display: flex; flex-direction: column; gap: 10px; }
-        
-        /* 게시판 리스트 영역 */
-        #boardList { flex: 1; overflow-y: auto; padding-right: 5px; margin-top: 10px; }
-            
         .close-btn { background: none; border: none; cursor: pointer; }
 
         /* 입력창 안쪽 회색 기울임 글씨 적용 */
@@ -109,7 +103,7 @@
         <div class="receipt-paper">
             <button id="boardSubmitBtn" class="btn-style" style="margin: 0 auto 15px auto;">Add Order</button>
             
-            <input type="text" id="boardInput" style="width:80%; padding:4px 0; border:none; border-bottom:1px solid #aaa; background:transparent; outline:none; box-sizing:border-box; margin: 0 auto; display: block; text-align: center; font-size:0.9rem;" placeholder="Text...">
+            <input type="text" id="boardInput" style="width:80%; padding:2px 0; border:none; border-bottom:1px solid #aaa; background:transparent; outline:none; box-sizing:border-box; margin: 0 auto; display: block; text-align: center; font-size:0.9rem;" placeholder="Text...">
             
             <hr style="width: 100%; border: 1px dashed #ccc; margin: 15px 0;">
             
@@ -132,7 +126,7 @@
     <script>
         const socket = io();
 
-        // 닉네임 변경: Guest + 숫자 2자리
+        // Guest + 숫자 2자리 닉네임 설정
         const randomNum = String(Math.floor(Math.random() * 100)).padStart(2, '0');
         const myNickname = "Guest" + randomNum;
 
@@ -143,12 +137,13 @@
         // 채팅 전송
         function sendMessage() {
             const text = chatInput.value.trim();
-            if(!text) return; 
+            if(!text) return; // 🌟 빈 채팅 막기
             socket.emit('chat message', { nickname: myNickname, message: text });
             chatInput.value = '';
         }
 
         sendBtn.onclick = sendMessage;
+        // 🌟 엔터 키로 전송 기능
         chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
 
         socket.on('chat message', (data) => {
@@ -168,7 +163,7 @@
             setTimeout(() => eff.remove(), 800);
         });
 
-        // ESC로 모든 팝업 닫기
+        // 🌟 ESC 버튼으로 모든 팝업 닫기
         window.addEventListener('keydown', (e) => { 
             if(e.key === 'Escape') {
                 document.getElementById('boardPopup').style.display = 'none'; 
