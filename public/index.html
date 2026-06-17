@@ -19,41 +19,43 @@
 
         #main-area { width: 100%; height: 100%; position: relative; }
 
-        .ui-container {
-            position: absolute; top: 20px; left: 20px;
-            display: flex; flex-direction: column; gap: 10px; z-index: 20;
-        }
+        .ui-container { position: absolute; top: 20px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 20; }
+        .btn-style { padding: 8px 12px; background: #fff; border: 3px solid #000; cursor: pointer; color: #000; width: max-content; }
 
-        .btn-style {
-            padding: 8px 12px; font-family: 'DungGeunMo', sans-serif; font-size: 0.9rem;
-            background: #fff; border: 3px solid #000; cursor: pointer; color: #000; width: max-content;
-        }
-
-        /* 채팅 및 게시판 공통 컨테이너 */
+        /* 채팅 컨테이너 */
         #chat-wrapper {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        .chat-box { background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
-
-        /* 게시판 버튼 스타일 */
-        #board-trigger { margin-bottom: 5px; cursor: pointer; text-align: center; font-weight: bold; }
-
-        #chat-log { height: 120px; overflow-y: auto; margin-bottom: 5px; }
-
-        .log-item { font-size: 0.9rem; margin-bottom: 5px; }
-        .log-nickname { 
-            background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold;
+        /* 🌟 저기요! (Jeo Gi Yo) 디자인 */
+        #board-trigger { 
+            background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
+            padding: 10px; text-align: center; font-weight: bold; font-size: 1.3rem; 
+            cursor: pointer; width: 80%; margin: 0 auto;
         }
+
+        #chat-log { height: 120px; overflow-y: auto; background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
+        .log-item { font-size: 0.9rem; margin-bottom: 5px; }
+        .log-nickname { background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold; }
 
         .input-wrapper { display: flex; gap: 5px; }
         input[type="text"] { flex: 1; padding: 8px; border: 2px solid #000; outline: none; font-family: 'DungGeunMo'; }
-        #sendBtn { padding: 8px 15px; background: #50C878; color: #000; border: 2px solid #000; cursor: pointer; font-family: 'DungGeunMo'; font-weight: bold; }
+        #sendBtn { padding: 8px 15px; background: #50C878; color: #000; border: 2px solid #000; cursor: pointer; font-weight: bold; }
 
-        /* 팝업 스타일 */
-        .popup { display: none; position: absolute; top: 50%; right: 50px; transform: translateY(-50%); 
-                 width: 300px; background: #fff; border: 4px solid #000; z-index: 100; padding: 15px; flex-direction: column; gap: 10px; }
+        /* 🌟 영수증 결재판 팝업 스타일 */
+        .popup { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                 width: 320px; background: #333; padding: 20px; border-radius: 5px; z-index: 100; flex-direction: column; gap: 10px; 
+                 box-shadow: 10px 10px 0px rgba(0,0,0,0.3); }
+        .receipt-paper { background: #fff; padding: 20px; border: 1px solid #ccc; font-family: 'Courier New', Courier, monospace; }
+        .close-btn { background: none; border: none; cursor: pointer; font-family: 'DungGeunMo'; }
+
+        /* 말풍선 이펙트 */
+        .jjan-effect {
+            position: absolute; padding: 10px; background: #fff; border: 2px solid #000;
+            border-radius: 50% 50% 50% 0; font-weight: bold; animation: popUp 0.5s ease-out forwards;
+        }
+        @keyframes popUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -64,22 +66,23 @@
         </div>
 
         <div id="chat-wrapper">
-            <div id="board-trigger" class="chat-box" onclick="document.getElementById('boardPopup').style.display='flex'">
-                Jeo Gi Yo!🙋🏻‍♀️
-            </div>
-            <div id="chat-log" class="chat-box"></div>
+            <div id="board-trigger" onclick="document.getElementById('boardPopup').style.display='flex'">Jeo Gi Yo!🙋🏻‍♀️</div>
+            <div id="chat-log"></div>
             <div class="input-wrapper">
-                <input type="text" id="chatInput" placeholder="Message..." autocomplete="off">
+                <input type="text" id="chatInput" maxlength="30" placeholder="Message... (Max 30 chars)" autocomplete="off">
                 <button id="sendBtn">JJAN!</button>
             </div>
         </div>
     </div>
 
+    <!-- 영수증 게시판 팝업 -->
     <div id="boardPopup" class="popup">
-        <div style="display:flex; justify-content:space-between;"><b>Jeo Gi Yo Request</b><button onclick="this.parentElement.parentElement.style.display='none'">X</button></div>
-        <input type="text" id="boardInput" placeholder="Type request...">
-        <button id="boardSubmitBtn" class="btn-style">Post</button>
-        <div id="boardList" style="height: 200px; overflow-y: auto; border: 1px solid #000; padding: 5px;"></div>
+        <div style="color: white; display: flex; justify-content: space-between;"><b>Reciept</b><button class="close-btn" style="color:white" onclick="document.getElementById('boardPopup').style.display='none'">X</button></div>
+        <div class="receipt-paper">
+            <input type="text" id="boardInput" style="width:100%" placeholder="Add Order...">
+            <button id="boardSubmitBtn" class="btn-style">Add Order</button>
+            <div id="boardList" style="margin-top:10px; height: 150px; overflow-y: auto;"></div>
+        </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -88,9 +91,17 @@
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatLog = document.getElementById('chat-log');
-        const boardSubmitBtn = document.getElementById('boardSubmitBtn');
-        const boardInput = document.getElementById('boardInput');
-        const boardList = document.getElementById('boardList');
+
+        // 채팅 전송
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if(!text) return; // 빈 채팅 금지
+            socket.emit('chat message', { nickname: "Guest", message: text });
+            chatInput.value = '';
+        }
+
+        sendBtn.onclick = sendMessage;
+        chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
 
         socket.on('chat message', (data) => {
             const div = document.createElement('div');
@@ -98,26 +109,31 @@
             div.innerHTML = `<span class="log-nickname">${data.nickname}</span> ${data.message}`;
             chatLog.appendChild(div);
             chatLog.scrollTop = chatLog.scrollHeight;
+            
+            // 짠! 말풍선 효과
+            const eff = document.createElement('div');
+            eff.className = 'jjan-effect';
+            eff.innerText = "짠!";
+            eff.style.left = (Math.random() * 60 + 20) + '%';
+            eff.style.top = (Math.random() * 60 + 20) + '%';
+            document.body.appendChild(eff);
+            setTimeout(() => eff.remove(), 800);
         });
 
-        sendBtn.onclick = () => {
-            socket.emit('chat message', { nickname: "User", message: chatInput.value });
-            chatInput.value = '';
+        // ESC로 팝업 닫기
+        window.onkeydown = (e) => { if(e.key === 'Escape') document.getElementById('boardPopup').style.display = 'none'; };
+
+        // 게시판 로직
+        document.getElementById('boardSubmitBtn').onclick = () => {
+            const text = document.getElementById('boardInput').value;
+            if(!text) return;
+            socket.emit('save board message', { nickname: "Guest", message: text });
+            document.getElementById('boardInput').value = '';
         };
 
-        boardSubmitBtn.onclick = () => {
-            socket.emit('save board message', { nickname: "Guest", message: boardInput.value });
-            boardInput.value = '';
-        };
-
-        socket.on('load board', (messages) => {
-            boardList.innerHTML = '';
-            messages.forEach(m => {
-                const item = document.createElement('div');
-                item.style.marginBottom = "5px";
-                item.innerHTML = `<b>[${m.nickname}]</b> ${m.message}`;
-                boardList.appendChild(item);
-            });
+        socket.on('load board', (msgs) => {
+            const list = document.getElementById('boardList');
+            list.innerHTML = msgs.map(m => `<div>- ${m.message}</div>`).join('');
         });
     </script>
 </body>
