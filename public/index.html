@@ -59,12 +59,18 @@
             width: 320px; height: calc(100% - 40px);
             display: none; flex-direction: column; gap: 10px; box-sizing: border-box;
         }
-
+        
         .receipt-paper { 
             background: #fff; padding: 20px; border: 1px solid #ccc; 
             flex: 1; display: flex; flex-direction: column; overflow: hidden; 
         }
         
+        /* 입력창 고정 영역 (리스트와 겹치지 않게) */
+        .input-area { flex: 0; display: flex; flex-direction: column; gap: 10px; }
+        
+        /* 게시판 리스트 영역 */
+        #boardList { flex: 1; overflow-y: auto; padding-right: 5px; margin-top: 10px; }
+            
         .close-btn { background: none; border: none; cursor: pointer; }
 
         /* 입력창 안쪽 회색 기울임 글씨 적용 */
