@@ -13,11 +13,11 @@ let boardMessages = [];
 const MAX_BOARD_MESSAGE = 30;
 
 // 🌟 공지사항 및 주인장 비밀번호 설정
-let currentNotice = "Welcome to K-BBQ! 🍖\nGrab a soju glass and let's JJAN! 🍻";
+let currentNotice = "Welcome to Korean Soju-JJAN! 🍖\nGrab a soju glass and let's JJAN! 🍻";
 const ADMIN_PASSWORD = "admin"; // 원하는 비밀번호로 변경하세요!
 
 io.on('connection', (socket) => {
-    console.log('새로운 사용자가 고깃집에 입장했습니다!');
+    console.log('새로운 사용자가 짠하러 왔어요!');
 
     // 접속한 유저에게 기존 데이터 보내주기
     socket.emit('load board', boardMessages);
