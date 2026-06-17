@@ -30,11 +30,11 @@
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 🌟 저기요! 버튼 너비 최적화 */
+        /* 저기요! 버튼 너비 최적화 */
         #board-trigger { 
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
             padding: 10px 20px; text-align: center; font-weight: bold; font-size: 1.3rem; 
-            cursor: pointer; width: max-content; margin: 0 auto; /* 글씨에 맞게 크기 조절 */
+            cursor: pointer; width: max-content; margin: 0 auto; 
         }
 
         #chat-log { height: 120px; overflow-y: auto; background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
@@ -53,21 +53,21 @@
             box-shadow: 10px 10px 0px rgba(0,0,0,0.3); border: 4px solid #000;
         }
         
-        /* 🌟 영수증 결재판 팝업 위치 변경 (오른쪽 길게) */
+        /* 영수증 결재판 팝업 위치 변경 (오른쪽 길게) */
         #boardPopup {
             top: 20px; left: auto; right: 20px; transform: none; 
-            width: 320px; height: calc(100% - 40px); /* 상하 여백 20px씩 제외한 전체 높이 */
+            width: 320px; height: calc(100% - 40px);
             display: none; flex-direction: column; gap: 10px; box-sizing: border-box;
         }
 
         .receipt-paper { 
             background: #fff; padding: 20px; border: 1px solid #ccc; 
-            flex: 1; display: flex; flex-direction: column; overflow: hidden; /* 영역 가득 채우기 */
+            flex: 1; display: flex; flex-direction: column; overflow: hidden; 
         }
         
         .close-btn { background: none; border: none; cursor: pointer; }
 
-        /* 🌟 입력창 안쪽 회색 기울임 글씨 적용 */
+        /* 입력창 안쪽 회색 기울임 글씨 적용 */
         #boardInput::placeholder { font-style: italic; color: #888; }
 
         /* 짠! 말풍선 이펙트 */
@@ -86,8 +86,7 @@
         </div>
 
         <div id="chat-wrapper">
-            <!-- 🌟 저기요 버튼 -->
-            <div id="board-trigger" onclick="document.getElementById('boardPopup').style.display='flex'">Jeo Gi Yo!🙋🏻‍♀️</div>
+            <div id="board-trigger" onclick="document.getElementById('boardPopup').style.display='flex'">Jeo Gi Yo!!🙋🏻‍♀️</div>
             <div id="chat-log"></div>
             <div class="input-wrapper">
                 <input type="text" id="chatInput" maxlength="30" placeholder="Message... (Max 30 chars)" autocomplete="off">
@@ -96,16 +95,15 @@
         </div>
     </div>
 
-    <!-- 영수증 게시판 팝업 -->
     <div id="boardPopup" class="popup">
         <div style="color: white; display: flex; justify-content: space-between;">
             <b>Receipt</b>
             <button class="close-btn" style="color:white" onclick="document.getElementById('boardPopup').style.display='none'">X</button>
         </div>
         <div class="receipt-paper">
-            <!-- 🌟 Add Order 버튼을 입력창 위로 올리고 중앙 정렬 -->
             <button id="boardSubmitBtn" class="btn-style" style="margin: 0 auto 15px auto;">Add Order</button>
-            <input type="text" id="boardInput" style="width:100%; padding:8px; border:2px solid #000; outline:none; box-sizing:border-box;" placeholder="Text...">
+            
+            <input type="text" id="boardInput" style="width:80%; padding:6px; border:2px solid #000; outline:none; box-sizing:border-box; margin: 0 auto; display: block; text-align: center;" placeholder="Text...">
             
             <hr style="width: 100%; border: 1px dashed #ccc; margin: 15px 0;">
             
@@ -113,7 +111,6 @@
         </div>
     </div>
 
-    <!-- 공지사항 팝업 추가 (기존 구조 복구) -->
     <div id="noticePopup" class="popup" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 320px;">
         <div style="color: white; display: flex; justify-content: space-between;">
             <b>📢 Notice</b>
@@ -129,10 +126,9 @@
     <script>
         const socket = io();
 
-        // 🌟 무작위 닉네임 생성 로직 추가
-        const adjectives = ["Cool", "Chill", "Dope", "Savage", "Boujee", "Lit", "Wild"];
-        const nouns = ["Tiger", "Bear", "Soju", "Kimchi", "BBQ", "Seoul", "Seoulite"];
-        const myNickname = adjectives[Math.floor(Math.random() * adjectives.length)] + " " + nouns[Math.floor(Math.random() * nouns.length)];
+        // 🌟 닉네임 변경: Guest + 숫자 2자리
+        const randomNum = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+        const myNickname = "Guest" + randomNum;
 
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -159,7 +155,7 @@
             // 짠! 말풍선 효과
             const eff = document.createElement('div');
             eff.className = 'jjan-effect';
-            eff.innerText = "짠!";
+            eff.innerText = "JJAN!";
             eff.style.left = (Math.random() * 60 + 20) + '%';
             eff.style.top = (Math.random() * 60 + 20) + '%';
             document.body.appendChild(eff);
@@ -178,7 +174,7 @@
             document.getElementById('noticePopup').style.display = 'flex';
         }
 
-        // 🌟 영수증 게시판 전송 로직
+        // 영수증 게시판 전송 로직
         document.getElementById('boardSubmitBtn').onclick = () => {
             const text = document.getElementById('boardInput').value.trim();
             if(!text) return;
@@ -186,12 +182,12 @@
             document.getElementById('boardInput').value = '';
         };
 
-        // 🌟 영수증 내역 불러오기 (채팅창과 동일한 디자인 구조 사용)
+        // 🌟 영수증 내역 불러오기 (글자 크기 축소 적용)
         socket.on('load board', (msgs) => {
             const list = document.getElementById('boardList');
             list.innerHTML = msgs.map(m => `
-                <div class="log-item" style="margin-bottom: 10px;">
-                    <span class="log-nickname">${m.nickname}</span> ${m.message}
+                <div class="log-item" style="margin-bottom: 8px; font-size: 0.75rem;">
+                    <span class="log-nickname" style="padding: 1px 3px; font-size: 0.7rem; margin-right: 4px;">${m.nickname}</span> ${m.message}
                 </div>
             `).join('');
         });
