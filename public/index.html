@@ -55,14 +55,14 @@
             flex-direction: column; gap: 10px; box-sizing: border-box;
         }
         
-        /* 🌟 영수증 팝업 전용 스타일 */
+        /* 영수증 팝업 전용 스타일 */
         #boardPopup {
             top: 20px; 
             left: auto; 
             right: 20px; 
             transform: none; 
             height: calc(100% - 40px); 
-            background: #F5F5F5; /* 아주 연한 회색으로 변경 */
+            background: #F5F5F5; /* 아주 연한 회색 */
             border-radius: 12px; 
             box-shadow: 8px 8px 0px rgba(80, 200, 120, 0.5); 
             display: none; 
@@ -108,15 +108,15 @@
         
         <div style="display: flex; flex-direction: column; margin-top: 15px; flex: 1; overflow: hidden;">
             
-            <!-- 🌟 잘림(Overflow) 현상을 해결한 입력창 컨테이너 -->
-            <div style="display: flex; gap: 8px; width: 100%; box-sizing: border-box;">
-                <!-- 🌟 왼쪽 정렬(text-align: left) 적용 -->
-                <input type="text" id="boardInput" style="flex: 1; height: 38px; padding: 0 10px; border: 2px solid #000; border-radius: 6px; background: #fff; outline: none; box-sizing: border-box; text-align: left; font-size: 0.9rem;" placeholder="Order...">
-                <!-- 🌟 버튼이 찌그러지지 않도록 flex-shrink: 0 적용 -->
+            <!-- 🌟 수정된 부분: padding-right와 padding-bottom을 추가하여 그림자 공간을 확보 -->
+            <div style="display: flex; gap: 8px; width: 100%; box-sizing: border-box; padding-right: 6px; padding-bottom: 6px;">
+                <!-- 🌟 수정된 부분: max-width: 60%; 속성으로 텍스트 입력창 길이 축소 -->
+                <input type="text" id="boardInput" style="flex: 1; max-width: 60%; height: 38px; padding: 0 10px; border: 2px solid #000; border-radius: 6px; background: #fff; outline: none; box-sizing: border-box; text-align: left; font-size: 0.9rem;" placeholder="Order...">
+                
                 <button id="boardSubmitBtn" class="btn-style" style="height: 38px; margin: 0; padding: 0 12px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #50C878; font-weight: bold; font-size: 0.85rem; flex-shrink: 0;">Add Order</button>
             </div>
             
-            <hr style="width: 100%; border: 1px dashed #ccc; margin: 15px 0; flex-shrink: 0;">
+            <hr style="width: 100%; border: 1px dashed #ccc; margin: 10px 0 15px 0; flex-shrink: 0;">
             
             <div id="boardList" style="flex: 1; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 8px;"></div>
         </div>
@@ -138,7 +138,6 @@
     <script>
         const socket = io();
 
-        // Guest + 숫자 2자리 닉네임 설정
         const randomNum = String(Math.floor(Math.random() * 100)).padStart(2, '0');
         const myNickname = "Guest" + randomNum;
 
