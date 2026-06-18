@@ -12,7 +12,7 @@ app.use(express.static('public'));
 let boardMessages = [];
 const MAX_BOARD_MESSAGE = 30; // 🌟 영수증 최대 저장 개수 (30개)
 
-let currentNotice = "Welcome to K-BBQ! 🍖\nGrab a soju glass and let's JJAN! 🍻";
+let currentNotice = "Welcome to Online Soju-JJAN ! 🥛🥛 \nGrab a soju glass and let's JJAN! 🍻";
 const ADMIN_PASSWORD = "admin"; // 공지사항 수정 비밀번호
 
 io.on('connection', (socket) => {
