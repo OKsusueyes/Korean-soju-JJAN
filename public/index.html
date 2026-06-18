@@ -30,7 +30,7 @@
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 저기요! 버튼 너비 최적화 */
+        /* 저기요! 버튼 */
         #board-trigger { 
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
             padding: 10px 20px; text-align: center; font-weight: bold; font-size: 1.3rem; 
@@ -55,21 +55,24 @@
             flex-direction: column; gap: 10px; box-sizing: border-box;
         }
         
-        /* 🌟 영수증 팝업 전용 스타일 (오른쪽 길게 배치, 투명 초록 그림자) */
+        /* 🌟 영수증 팝업 전용 스타일 */
         #boardPopup {
             top: 20px; 
             left: auto; 
             right: 20px; 
             transform: none; 
-            height: calc(100% - 40px); /* 화면 상하 여백 제외 꽉 채우기 */
-            background: #FFFFF0; /* 아이보리색 영수증 배경 */
+            height: calc(100% - 40px); 
+            background: #F5F5F5; /* 아주 연한 회색으로 변경 */
             border-radius: 12px; 
-            box-shadow: 8px 8px 0px rgba(80, 200, 120, 0.5); /* 투명도 있는 초록색 계열 그림자 */
-            display: none; /* 초기 상태 숨김 */
+            box-shadow: 8px 8px 0px rgba(80, 200, 120, 0.5); 
+            display: none; 
             flex-direction: column; 
         }
 
         .close-btn { background: none; border: none; cursor: pointer; font-family: 'DungGeunMo', sans-serif; }
+
+        /* 입력창 안쪽 회색 기울임 글씨 적용 */
+        #boardInput::placeholder { font-style: italic; color: #888; }
 
         /* 짠! 말풍선 이펙트 */
         .jjan-effect {
@@ -87,7 +90,6 @@
         </div>
 
         <div id="chat-wrapper">
-            <!-- 저기요 버튼 -->
             <div id="board-trigger" onclick="document.getElementById('boardPopup').style.display='flex'">Jeo Gi Yo!🙋🏻‍♀️</div>
             <div id="chat-log"></div>
             <div class="input-wrapper">
@@ -97,7 +99,7 @@
         </div>
     </div>
 
-    <!-- 🌟 영수증 게시판 팝업 -->
+    <!-- 영수증 게시판 팝업 -->
     <div id="boardPopup" class="popup">
         <div style="color: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
             <b style="font-size: 1.1rem;">🧾 Receipt</b>
@@ -106,15 +108,16 @@
         
         <div style="display: flex; flex-direction: column; margin-top: 15px; flex: 1; overflow: hidden;">
             
-            <!-- 텍스트 입력창과 버튼 나란히 배치 -->
-            <div style="display: flex; gap: 8px; width: 100%; justify-content: center; flex-shrink: 0;">
-                <input type="text" id="boardInput" style="flex: 1; height: 38px; padding: 0 10px; border: 2px solid #000; border-radius: 6px; background: #fff; outline: none; box-sizing: border-box; text-align: center; font-size: 0.9rem;" placeholder="Order...">
-                <button id="boardSubmitBtn" class="btn-style" style="height: 38px; margin: 0; padding: 0 12px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #50C878; font-weight: bold; font-size: 0.85rem;">Add Order</button>
+            <!-- 🌟 잘림(Overflow) 현상을 해결한 입력창 컨테이너 -->
+            <div style="display: flex; gap: 8px; width: 100%; box-sizing: border-box;">
+                <!-- 🌟 왼쪽 정렬(text-align: left) 적용 -->
+                <input type="text" id="boardInput" style="flex: 1; height: 38px; padding: 0 10px; border: 2px solid #000; border-radius: 6px; background: #fff; outline: none; box-sizing: border-box; text-align: left; font-size: 0.9rem;" placeholder="Order...">
+                <!-- 🌟 버튼이 찌그러지지 않도록 flex-shrink: 0 적용 -->
+                <button id="boardSubmitBtn" class="btn-style" style="height: 38px; margin: 0; padding: 0 12px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #50C878; font-weight: bold; font-size: 0.85rem; flex-shrink: 0;">Add Order</button>
             </div>
             
             <hr style="width: 100%; border: 1px dashed #ccc; margin: 15px 0; flex-shrink: 0;">
             
-            <!-- 🌟 영수증 내역 리스트 영역 (flex: 1을 주어 길어진 공간을 모두 차지하도록 설정) -->
             <div id="boardList" style="flex: 1; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 8px;"></div>
         </div>
     </div>
@@ -143,7 +146,6 @@
         const sendBtn = document.getElementById('sendBtn');
         const chatLog = document.getElementById('chat-log');
 
-        // 채팅 전송
         function sendMessage() {
             const text = chatInput.value.trim();
             if(!text) return; 
@@ -161,7 +163,6 @@
             chatLog.appendChild(div);
             chatLog.scrollTop = chatLog.scrollHeight;
             
-            // 짠! 말풍선 효과
             const eff = document.createElement('div');
             eff.className = 'jjan-effect';
             eff.innerText = "짠!";
@@ -171,7 +172,6 @@
             setTimeout(() => eff.remove(), 800);
         });
 
-        // ESC로 모든 팝업 닫기
         window.addEventListener('keydown', (e) => { 
             if(e.key === 'Escape') {
                 document.getElementById('boardPopup').style.display = 'none'; 
@@ -183,7 +183,6 @@
             document.getElementById('noticePopup').style.display = 'flex';
         }
 
-        // 영수증 게시판 전송 로직
         document.getElementById('boardSubmitBtn').onclick = () => {
             const text = document.getElementById('boardInput').value.trim();
             if(!text) return;
@@ -191,7 +190,6 @@
             document.getElementById('boardInput').value = '';
         };
 
-        // 귀여운 영수증 내역 불러오기 스타일 적용
         socket.on('load board', (msgs) => {
             const list = document.getElementById('boardList');
             list.innerHTML = msgs.map(m => `
@@ -201,7 +199,6 @@
             `).join('');
         });
 
-        // 공지사항 (Notice) 로직
         const noticeEditBtn = document.getElementById('noticeEditBtn');
         let tempPassword = "";
 
