@@ -1,7 +1,7 @@
 {
-  "name": "korean-soju-jjan",
+  "name": "Online Soju-jjan",
   "version": "1.0.0",
-  "description": "Online K-BBQ Soju JJAN Chat",
+  "description": "Online Soju JJAN Chat",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
