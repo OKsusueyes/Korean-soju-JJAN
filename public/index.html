@@ -19,7 +19,7 @@
             background-color: #ffffff;
         }
 
-        #main-area { width: 100%; height: 100%; position: relative; }
+        #main-area { width: 100%; height: 100%; position: relative; z-index: 1; }
 
         .ui-container { position: absolute; top: 20px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 20; }
         .btn-style { padding: 8px 12px; background: #fff; border: 3px solid #000; cursor: pointer; color: #000; width: max-content; }
@@ -74,10 +74,10 @@
         .close-btn { background: none; border: none; cursor: pointer; font-family: 'DungGeunMo', sans-serif; }
         #boardInput::placeholder { font-style: italic; color: #888; }
 
-        /* 비트맵 짠! 애니메이션 스타일 */
+        /* 🌟 수정됨: 애니메이션이 다른 UI를 가리지 않도록 z-index를 10으로 낮춤 */
         .toast-wrapper {
             position: absolute; width: 160px; height: 120px;
-            transform: translate(-50%, -50%); pointer-events: none; z-index: 1000;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 10;
             display: flex; align-items: center; justify-content: center;
             animation: fadeOutWrapper 1.2s ease-in-out forwards; 
         }
@@ -151,7 +151,6 @@
         <div class="ui-container">
             <button id="noticeToggleBtn" class="btn-style">📢 Notice</button>
             
-            <!-- 🌟 새로 추가됨: 카운팅 보드 (소주 & 사이다 병 수) -->
             <div id="counterBoard" class="btn-style" style="cursor: default; text-align: left; font-size: 0.9rem; line-height: 1.5; padding: 10px;">
                 🍾 Soju: <span id="sojuCountText">0</span><br>
                 🥤 Soda: <span id="sodaCountText">0</span>
@@ -160,7 +159,6 @@
 
         <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
             Jeo Gi Yo!🙋🏻‍♀️
-            <span style="display: block; font-size: 0.5rem; color: #666; font-weight: normal; margin-top: 4px;">(Leave a Message to Sujin)</span>
         </div>
 
         <div id="chat-wrapper">
@@ -178,24 +176,28 @@
             <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('menuPopup').style.display='none'">X</button>
         </div>
         <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
-            <!-- 🌟 수정됨: onclick 이벤트를 카운팅 함수로 변경 -->
             <button class="menu-btn" onclick="addSoju()">Add Soju</button>
             <button class="menu-btn" onclick="addSoda()">Add Soda</button>
-            <button class="menu-btn" onclick="sendQuickMenuMessage('사장님! 기타 요청사항이 있습니다! 🙋🏻‍♀️')">Other Request</button>
+            
+            <button class="menu-btn" onclick="window.open('https://docs.google.com/forms/d/1xkJdB_npCP-J09uFE-vsyuvH-VC7SKgii2T2p6Gnx7A/edit', '_blank'); document.getElementById('menuPopup').style.display='none';">Other Request</button>
+            
             <button class="menu-btn" onclick="openInquiriesBoard()" style="background: #50C878; border-color: #000;">Call the Sa-Jang-Nim(Boss)</button>
         </div>
     </div>
 
     <div id="boardPopup" class="popup">
-        <div style="color: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
-            <b style="font-size: 1.1rem;">📝 Inquiries !!!</b>
-            <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('boardPopup').style.display='none'">X</button>
+        <div style="color: #000; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <b style="font-size: 1.1rem;">📝 Inquiries !!!</b>
+                <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('boardPopup').style.display='none'">X</button>
+            </div>
+            <div style="font-size: 0.75rem; color: #888; font-style: italic; margin-top: 4px;">Leave a Message to Sujin</div>
         </div>
         
         <div style="display: flex; flex-direction: column; margin-top: 15px; flex: 1; overflow: hidden;">
             <div style="display: flex; gap: 8px; width: 100%; box-sizing: border-box; padding-bottom: 6px;">
                 <input type="text" id="boardInput" style="flex: 1; width: 150px; height: 33px; padding: 0 10px; border: 2px solid #000; border-radius: 6px; background: #fff; outline: none; box-sizing: border-box; text-align: left; font-size: 0.8rem;" placeholder="Order...">
-                <button id="boardSubmitBtn" class="btn-style" style="height: 33px; margin: 0; padding: 0 15px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #50C878; font-weight: normal; font-size: 0.8rem; flex-shrink: 0; box-sizing: border-box; line-height: 1;">Add Order</button>
+                <button id="boardSubmitBtn" class="btn-style" style="height: 33px; margin: 0; padding: 0 15px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #50C878; font-weight: normal; font-size: 0.8rem; flex-shrink: 0; box-sizing: border-box; line-height: 1;">Clame💢</button>
             </div>
             <hr style="width: 100%; border: 1px dashed #ccc; margin: 10px 0 15px 0; flex-shrink: 0;">
             <div id="boardList" style="flex: 1; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 8px;"></div>
@@ -224,24 +226,20 @@
         const sendBtn = document.getElementById('sendBtn');
         const chatLog = document.getElementById('chat-log');
 
-        // 🌟 새로 추가됨: 카운팅 관련 변수
         let myChatCount = 0;
         let sojuBottleCount = 0;
         let sodaBottleCount = 0;
 
-        // UI에 숫자 반영 함수
         function updateCounterUI() {
             document.getElementById('sojuCountText').innerText = sojuBottleCount;
             document.getElementById('sodaCountText').innerText = sodaBottleCount;
         }
 
-        // Add Soju 버튼 클릭 시 실행 (창 유지, 애니메이션 X)
         function addSoju() {
             sojuBottleCount++;
             updateCounterUI();
         }
 
-        // Add Soda 버튼 클릭 시 실행 (창 유지, 애니메이션 X)
         function addSoda() {
             sodaBottleCount++;
             updateCounterUI();
@@ -310,7 +308,6 @@
             socket.emit('chat message', { nickname: myNickname, message: text });
             chatInput.value = '';
 
-            // 🌟 수정됨: 채팅 시 카운트 증가 (10번 치면 소주 1병)
             myChatCount++;
             if (myChatCount % 10 === 0) {
                 sojuBottleCount++;
@@ -358,11 +355,6 @@
 
         document.getElementById('noticeToggleBtn').onclick = () => {
             document.getElementById('noticePopup').style.display = 'flex';
-        }
-
-        function sendQuickMenuMessage(msg) {
-            socket.emit('chat message', { nickname: myNickname, message: msg });
-            document.getElementById('menuPopup').style.display = 'none';
         }
 
         function openInquiriesBoard() {
