@@ -24,6 +24,7 @@
 
         #main-area { width: 100%; height: 100%; position: relative; z-index: 1; }
 
+        /* 예약 확인 오버레이 */
         #introOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); z-index: 9999;
@@ -38,28 +39,30 @@
         .btn-style { padding: 8px 12px; background: #fff; border: 3px solid #000; cursor: pointer; color: #000; width: max-content; font-family: 'DungGeunMo'; font-weight: bold; }
         .btn-style:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
 
+        /* 채팅 컨테이너 */
         #chat-wrapper {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
+        /* 저기요 버튼 (채팅창 안쪽, 위쪽 배치) */
         #board-trigger { 
-            position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30;
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
             padding: 10px 20px; text-align: center; font-weight: bold; font-size: 1.3rem; 
-            cursor: pointer; width: max-content; 
+            cursor: pointer; width: max-content; margin: 0 auto; 
         }
 
         #chat-log { height: 120px; overflow-y: auto; background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
-        .log-item { font-size: 0.9rem; margin-bottom: 5px; }
+        .log-item { font-size: 0.7rem; margin-bottom: 5px; }
         
         .log-nickname { background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold; display: inline-block; border-radius: 4px; }
-        .log-notice { color: #333; font-style: italic; background: rgba(255,255,255,0.7); padding: 4px; border-radius: 4px; font-size: 0.8rem; text-align: center;}
+        .log-notice { color: #333; font-style: italic; background: rgba(255,255,255,0.7); padding: 4px; border-radius: 4px; font-size: 0.7rem; text-align: center;}
 
         .input-wrapper { display: flex; gap: 5px; }
         input[type="text"] { flex: 1; padding: 8px; border: 2px solid #000; outline: none; font-family: 'DungGeunMo'; }
         #sendBtn { padding: 8px 15px; background: #50C878; color: #000; border: 2px solid #000; cursor: pointer; font-weight: bold; }
 
+        /* 팝업 공통 스타일 */
         .popup { 
             display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             width: 320px; background: #fff; padding: 20px; border-radius: 5px; z-index: 100; 
@@ -78,6 +81,7 @@
         }
         .menu-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
 
+        /* 문의(Inquiries) 게시판 스타일 */
         #boardPopup {
             top: 20px; left: auto; right: 20px; transform: none; height: calc(100% - 40px); 
             background: #F5F5F5; border-radius: 12px; box-shadow: 8px 8px 0px rgba(80, 200, 120, 0.5); 
@@ -87,27 +91,31 @@
         .close-btn { background: none; border: none; cursor: pointer; font-family: 'DungGeunMo', sans-serif; }
         #boardInput::placeholder { font-style: italic; color: #888; }
 
-        /* 비트맵 짠! 애니메이션 스타일 */
+        /* 비트맵 애니메이션 이펙트 */
         .toast-wrapper {
             position: absolute; width: 160px; height: 120px;
             transform: translate(-50%, -50%); pointer-events: none; z-index: 10;
             display: flex; align-items: center; justify-content: center;
             animation: fadeOutWrapper 1.2s ease-in-out forwards; 
         }
+
         .toast-text {
             position: absolute; font-size: 3.5rem; color: #fff700; font-weight: bold;
             text-shadow: 3px 3px 0 #000, -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000;
             z-index: 1; opacity: 0; top: 0;
             animation: textPopUp 1.2s ease-in-out forwards;
         }
+
         .toast-glass-container {
             position: relative; width: 100%; height: 100%;
             display: flex; justify-content: space-between; align-items: flex-end;
             z-index: 2;
         }
+
         .hand-left { animation: clinkLeft 1.2s ease-in-out forwards; }
         .hand-right { animation: clinkRight 1.2s ease-in-out forwards; }
         .liquid-group { animation: splashLiquid 1.2s ease-in-out forwards; transform-origin: bottom center; }
+
         .pixel-drop {
             position: absolute; width: 6px; height: 6px; background: #A5F3FC; border: 2px solid #000; z-index: 3; opacity: 0;
         }
@@ -161,15 +169,15 @@
                 🥤 Soda: <span id="sodaCountText">0</span>
             </div>
 
-            <div id="rankingBoard" class="btn-style" style="cursor: default; text-align: left; font-size: 0.85rem; line-height: 1.5; padding: 10px;">
-                <b style="font-size: 0.9rem; display: block; border-bottom: 2px dashed #000; padding-bottom: 4px; margin-bottom: 6px;">Who's the big drinker here?😵‍💫🍾🍺</b>
+            <div id="rankingBoard" class="btn-style" style="cursor: default; text-align: left; font-size: 0.85rem; line-height: 1.5; padding: 10px; width: 170px; box-sizing: border-box;">
+                <b style="font-size: 0.9rem; display: block; border-bottom: 2px dashed #000; padding-bottom: 4px; margin-bottom: 6px; text-align: center;">Who's the big drinker<br>HERE?😵‍💫🍾🥤</b>
                 
-                <div style="color: #198754; font-weight: bold; margin-top: 5px;">[Top 3 Soju]</div>
+                <div style="color: #198754; font-weight: bold; margin-top: 5px;">🍾TOP 3 Soju</div>
                 <div id="sojuRankingList" style="margin-left: 5px;">
                     1. -<br>2. -<br>3. -
                 </div>
                 
-                <div style="color: #0d6efd; font-weight: bold; margin-top: 8px;">[Top 3 Soda]</div>
+                <div style="color: #0d6efd; font-weight: bold; margin-top: 8px;">🥤TOP 3 Soda</div>
                 <div id="sodaRankingList" style="margin-left: 5px;">
                     1. -<br>2. -<br>3. -
                 </div>
@@ -178,11 +186,11 @@
             <button class="btn-style" onclick="document.getElementById('tipsPopup').style.display='flex'">👍🏻TIPS for Staff</button>
         </div>
 
-        <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
-            Jeo Gi Yo!🙋🏻‍♀️
-        </div>
-
         <div id="chat-wrapper">
+            <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
+                Jeo Gi Yo!🙋🏻‍♀️
+            </div>
+            
             <div id="chat-log"></div>
             <div class="input-wrapper">
                 <input type="text" id="chatInput" maxlength="30" placeholder="Message... (Max 30 chars)" autocomplete="off">
@@ -295,7 +303,6 @@
             document.getElementById('sodaCountText').innerText = sodaBottleCount;
         }
 
-        // 🌟 수정됨: 서버로 버튼 클릭 정보 전송
         function addSoju() {
             sojuBottleCount++;
             updateCounterUI();
@@ -375,7 +382,6 @@
             if (myChatCount % 10 === 0) {
                 sojuBottleCount++;
                 updateCounterUI();
-                // 🌟 수정됨: 채팅으로 1병 추가될 때도 서버로 전송
                 socket.emit('add beverage', { nickname: myNickname, type: 'soju' });
             }
         }
@@ -403,10 +409,9 @@
             chatLog.scrollTop = chatLog.scrollHeight;
         });
 
-        // 🌟 새로 추가됨: 서버로부터 랭킹 정보 받아서 UI 업데이트
         socket.on('update rankings', (data) => {
-            const sojuHTML = data.sojuRank.map((user, index) => `${index + 1}. ${user.nickname} (${user.count}병)`).join('<br>') || "1. -<br>2. -<br>3. -";
-            const sodaHTML = data.sodaRank.map((user, index) => `${index + 1}. ${user.nickname} (${user.count}병)`).join('<br>') || "1. -<br>2. -<br>3. -";
+            const sojuHTML = data.sojuRank.map((user, index) => `${index + 1}. ${user.nickname} (${user.count} Bottles)`).join('<br>') || "1. -<br>2. -<br>3. -";
+            const sodaHTML = data.sodaRank.map((user, index) => `${index + 1}. ${user.nickname} (${user.count} Bottles)`).join('<br>') || "1. -<br>2. -<br>3. -";
             
             document.getElementById('sojuRankingList').innerHTML = sojuHTML;
             document.getElementById('sodaRankingList').innerHTML = sodaHTML;
