@@ -30,7 +30,7 @@
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 🌟 수정됨: 저기요! 버튼을 상단 중앙으로 고정 배치 */
+        /* 저기요! 버튼 */
         #board-trigger { 
             position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30;
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
@@ -150,9 +150,14 @@
     <div id="main-area">
         <div class="ui-container">
             <button id="noticeToggleBtn" class="btn-style">📢 Notice</button>
+            
+            <!-- 🌟 새로 추가됨: 카운팅 보드 (소주 & 사이다 병 수) -->
+            <div id="counterBoard" class="btn-style" style="cursor: default; text-align: left; font-size: 0.9rem; line-height: 1.5; padding: 10px;">
+                🍾 Soju: <span id="sojuCountText">0</span><br>
+                🥤 Soda: <span id="sodaCountText">0</span>
+            </div>
         </div>
 
-        <!-- 🌟 수정됨: 상단 중앙으로 이동한 저기요 버튼 -->
         <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
             Jeo Gi Yo!🙋🏻‍♀️
             <span style="display: block; font-size: 0.5rem; color: #666; font-weight: normal; margin-top: 4px;">(Leave a Message to Sujin)</span>
@@ -167,24 +172,22 @@
         </div>
     </div>
 
-    <!-- 🌟 새로 추가됨: 메뉴 선택 팝업 -->
     <div id="menuPopup" class="popup">
         <div style="color: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
             <b style="font-size: 1.1rem;">🔔 Options</b>
             <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('menuPopup').style.display='none'">X</button>
         </div>
         <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
-            <button class="menu-btn" onclick="sendQuickMenuMessage('사장님! 여기 소주 한 병 추가요! 🍾')">Add Soju</button>
-            <button class="menu-btn" onclick="sendQuickMenuMessage('사장님! 여기 사이다 하나 추가요! 🥤')">Add Soda</button>
+            <!-- 🌟 수정됨: onclick 이벤트를 카운팅 함수로 변경 -->
+            <button class="menu-btn" onclick="addSoju()">Add Soju</button>
+            <button class="menu-btn" onclick="addSoda()">Add Soda</button>
             <button class="menu-btn" onclick="sendQuickMenuMessage('사장님! 기타 요청사항이 있습니다! 🙋🏻‍♀️')">Other Request</button>
             <button class="menu-btn" onclick="openInquiriesBoard()" style="background: #50C878; border-color: #000;">Call the Sa-Jang-Nim(Boss)</button>
         </div>
     </div>
 
-    <!-- 🌟 제목이 수정된 문의(Inquiries) 팝업 -->
     <div id="boardPopup" class="popup">
         <div style="color: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
-            <!-- 🌟 제목 수정됨 -->
             <b style="font-size: 1.1rem;">📝 Inquiries !!!</b>
             <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('boardPopup').style.display='none'">X</button>
         </div>
@@ -199,7 +202,6 @@
         </div>
     </div>
 
-    <!-- 공지사항 팝업 -->
     <div id="noticePopup" class="popup">
         <div style="color: #000; display: flex; justify-content: space-between;">
             <b>📢 Notice</b>
@@ -221,6 +223,29 @@
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatLog = document.getElementById('chat-log');
+
+        // 🌟 새로 추가됨: 카운팅 관련 변수
+        let myChatCount = 0;
+        let sojuBottleCount = 0;
+        let sodaBottleCount = 0;
+
+        // UI에 숫자 반영 함수
+        function updateCounterUI() {
+            document.getElementById('sojuCountText').innerText = sojuBottleCount;
+            document.getElementById('sodaCountText').innerText = sodaBottleCount;
+        }
+
+        // Add Soju 버튼 클릭 시 실행 (창 유지, 애니메이션 X)
+        function addSoju() {
+            sojuBottleCount++;
+            updateCounterUI();
+        }
+
+        // Add Soda 버튼 클릭 시 실행 (창 유지, 애니메이션 X)
+        function addSoda() {
+            sodaBottleCount++;
+            updateCounterUI();
+        }
 
         const leftHandSVG = `
             <svg viewBox="0 0 20 20" width="80" height="80" shape-rendering="crispEdges">
@@ -284,6 +309,13 @@
             if(!text) return; 
             socket.emit('chat message', { nickname: myNickname, message: text });
             chatInput.value = '';
+
+            // 🌟 수정됨: 채팅 시 카운트 증가 (10번 치면 소주 1병)
+            myChatCount++;
+            if (myChatCount % 10 === 0) {
+                sojuBottleCount++;
+                updateCounterUI();
+            }
         }
 
         sendBtn.onclick = sendMessage;
@@ -316,7 +348,6 @@
             setTimeout(() => wrapper.remove(), 1200);
         });
 
-        // 🌟 수정됨: ESC 키 누를 때 메뉴 팝업도 같이 닫히게 처리
         window.addEventListener('keydown', (e) => { 
             if(e.key === 'Escape') {
                 document.getElementById('boardPopup').style.display = 'none'; 
@@ -329,16 +360,14 @@
             document.getElementById('noticePopup').style.display = 'flex';
         }
 
-        // 🌟 새로 추가됨: 메뉴 버튼 눌렀을 때 메시지 자동 전송
         function sendQuickMenuMessage(msg) {
             socket.emit('chat message', { nickname: myNickname, message: msg });
-            document.getElementById('menuPopup').style.display = 'none'; // 메뉴창 닫기
+            document.getElementById('menuPopup').style.display = 'none';
         }
 
-        // 🌟 새로 추가됨: 사장님 호출 버튼을 누르면 Inquiries 보드 열기
         function openInquiriesBoard() {
-            document.getElementById('menuPopup').style.display = 'none'; // 메뉴창 닫고
-            document.getElementById('boardPopup').style.display = 'flex'; // 보드 팝업 열기
+            document.getElementById('menuPopup').style.display = 'none';
+            document.getElementById('boardPopup').style.display = 'flex';
         }
 
         document.getElementById('boardSubmitBtn').onclick = () => {
