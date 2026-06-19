@@ -30,17 +30,17 @@
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 저기요! 버튼 */
+        /* 🌟 수정됨: 저기요! 버튼을 상단 중앙으로 고정 배치 */
         #board-trigger { 
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30;
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
             padding: 10px 20px; text-align: center; font-weight: bold; font-size: 1.3rem; 
-            cursor: pointer; width: max-content; margin: 0 auto; 
+            cursor: pointer; width: max-content; 
         }
 
         #chat-log { height: 120px; overflow-y: auto; background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
         .log-item { font-size: 0.9rem; margin-bottom: 5px; }
         
-        /* 닉네임 배경 (소주병 초록색 + 검정 글씨) */
         .log-nickname { background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold; display: inline-block; border-radius: 4px; }
 
         .input-wrapper { display: flex; gap: 5px; }
@@ -55,6 +55,15 @@
             flex-direction: column; gap: 10px; box-sizing: border-box;
         }
         
+        /* 메뉴 버튼 전용 스타일 */
+        .menu-btn {
+            width: 100%; padding: 12px; font-size: 1rem; border-radius: 6px;
+            background: #fff; border: 2px solid #000; cursor: pointer; font-weight: bold;
+            font-family: 'DungGeunMo', sans-serif; box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .menu-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
+
         /* 영수증 팝업 전용 스타일 */
         #boardPopup {
             top: 20px; left: auto; right: 20px; transform: none; height: calc(100% - 40px); 
@@ -65,12 +74,12 @@
         .close-btn { background: none; border: none; cursor: pointer; font-family: 'DungGeunMo', sans-serif; }
         #boardInput::placeholder { font-style: italic; color: #888; }
 
-        /* 🌟 업그레이드된 비트맵 짠! 애니메이션 스타일 🌟 */
+        /* 비트맵 짠! 애니메이션 스타일 */
         .toast-wrapper {
             position: absolute; width: 160px; height: 120px;
             transform: translate(-50%, -50%); pointer-events: none; z-index: 1000;
             display: flex; align-items: center; justify-content: center;
-            animation: fadeOutWrapper 1.2s ease-in-out forwards; /* 1.2초로 단축 */
+            animation: fadeOutWrapper 1.2s ease-in-out forwards; 
         }
 
         .toast-text {
@@ -88,11 +97,8 @@
 
         .hand-left { animation: clinkLeft 1.2s ease-in-out forwards; }
         .hand-right { animation: clinkRight 1.2s ease-in-out forwards; }
-
-        /* 비트맵 찰랑이는 소주 애니메이션 */
         .liquid-group { animation: splashLiquid 1.2s ease-in-out forwards; transform-origin: bottom center; }
 
-        /* 비트맵 튀는 물방울 */
         .pixel-drop {
             position: absolute; width: 6px; height: 6px; background: #A5F3FC; border: 2px solid #000;
             z-index: 3; opacity: 0;
@@ -101,7 +107,6 @@
         .drop2 { top: 10px; left: 80px; animation: dropsPop2 1.2s ease-in-out forwards; }
         .drop3 { top: 25px; left: 100px; animation: dropsPop3 1.2s ease-in-out forwards; }
 
-        /* 더 빨라진 애니메이션 키프레임들 */
         @keyframes fadeOutWrapper {
             0%, 75% { opacity: 1; transform: translate(-50%, -50%); }
             100% { opacity: 0; transform: translate(-50%, -60%); }
@@ -147,11 +152,13 @@
             <button id="noticeToggleBtn" class="btn-style">📢 Notice</button>
         </div>
 
+        <!-- 🌟 수정됨: 상단 중앙으로 이동한 저기요 버튼 -->
+        <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
+            Jeo Gi Yo!🙋🏻‍♀️
+            <span style="display: block; font-size: 0.5rem; color: #666; font-weight: normal; margin-top: 4px;">(Leave a Message to Sujin)</span>
+        </div>
+
         <div id="chat-wrapper">
-            <div id="board-trigger" onclick="document.getElementById('boardPopup').style.display='flex'">
-                Jeo Gi Yo!🙋🏻‍♀️
-                <span style="display: block; font-size: 0.5rem; color: #666; font-weight: normal; margin-top: 4px;">(Leave a Message to Sujin)</span>
-            </div>
             <div id="chat-log"></div>
             <div class="input-wrapper">
                 <input type="text" id="chatInput" maxlength="30" placeholder="Message... (Max 30 chars)" autocomplete="off">
@@ -160,9 +167,25 @@
         </div>
     </div>
 
+    <!-- 🌟 새로 추가됨: 메뉴 선택 팝업 -->
+    <div id="menuPopup" class="popup">
+        <div style="color: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
+            <b style="font-size: 1.1rem;">🔔 Options</b>
+            <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('menuPopup').style.display='none'">X</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+            <button class="menu-btn" onclick="sendQuickMenuMessage('사장님! 여기 소주 한 병 추가요! 🍾')">Add Soju</button>
+            <button class="menu-btn" onclick="sendQuickMenuMessage('사장님! 여기 사이다 하나 추가요! 🥤')">Add Soda</button>
+            <button class="menu-btn" onclick="sendQuickMenuMessage('사장님! 기타 요청사항이 있습니다! 🙋🏻‍♀️')">Other Request</button>
+            <button class="menu-btn" onclick="openInquiriesBoard()" style="background: #50C878; border-color: #000;">Call the Sa-Jang-Nim(Boss)</button>
+        </div>
+    </div>
+
+    <!-- 🌟 제목이 수정된 문의(Inquiries) 팝업 -->
     <div id="boardPopup" class="popup">
         <div style="color: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
-            <b style="font-size: 1.1rem;">🧾 Receipt</b>
+            <!-- 🌟 제목 수정됨 -->
+            <b style="font-size: 1.1rem;">📝 Inquiries !!!</b>
             <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('boardPopup').style.display='none'">X</button>
         </div>
         
@@ -199,17 +222,14 @@
         const sendBtn = document.getElementById('sendBtn');
         const chatLog = document.getElementById('chat-log');
 
-        // 🌟 왼쪽 손 (엄지로 감싸쥔 모양, 사다리꼴 소주잔)
         const leftHandSVG = `
             <svg viewBox="0 0 20 20" width="80" height="80" shape-rendering="crispEdges">
-                <!-- 액체 그룹 -->
                 <g class="liquid-group">
                     <rect x="5" y="6" width="10" height="1" fill="#A5F3FC"/>
                     <rect x="5" y="7" width="10" height="1" fill="#CFFAFE"/>
                     <rect x="6" y="8" width="8" height="4" fill="#CFFAFE"/>
                     <rect x="7" y="12" width="6" height="3" fill="#CFFAFE"/>
                 </g>
-                <!-- 유리잔 테두리 & 배경 -->
                 <rect x="5" y="3" width="10" height="1" fill="#D1D5DB"/>
                 <rect x="4" y="4" width="1" height="4" fill="#D1D5DB"/>
                 <rect x="15" y="4" width="1" height="4" fill="#D1D5DB"/>
@@ -218,31 +238,26 @@
                 <rect x="6" y="12" width="1" height="3" fill="#D1D5DB"/>
                 <rect x="13" y="12" width="1" height="3" fill="#D1D5DB"/>
                 <rect x="7" y="15" width="6" height="1" fill="#D1D5DB"/>
-                <rect x="6" y="4" width="1" height="3" fill="#FFF"/> <!-- 빛 반사 -->
+                <rect x="6" y="4" width="1" height="3" fill="#FFF"/>
                 
-                <!-- 엄지 손가락 및 손등 -->
                 <rect x="0" y="13" width="6" height="7" fill="#fff4cc"/>
                 <rect x="2" y="11" width="5" height="4" fill="#fff4cc"/>
                 <rect x="4" y="8" width="4" height="4" fill="#fff4cc"/>
                 <rect x="5" y="7" width="2" height="1" fill="#fff4cc"/>
                 
-                <!-- 손가락 주름(음영) -->
                 <rect x="4" y="8" width="4" height="1" fill="#B45309" opacity="0.3"/>
                 <rect x="4" y="12" width="4" height="1" fill="#B45309" opacity="0.3"/>
             </svg>
         `;
 
-        // 🌟 오른쪽 손 (세 손가락 그립 + 은반지 디테일, 사다리꼴 소주잔)
         const rightHandSVG = `
             <svg viewBox="0 0 20 20" width="80" height="80" shape-rendering="crispEdges">
-                <!-- 액체 그룹 -->
                 <g class="liquid-group">
                     <rect x="5" y="6" width="10" height="1" fill="#A5F3FC"/>
                     <rect x="5" y="7" width="10" height="1" fill="#CFFAFE"/>
                     <rect x="6" y="8" width="8" height="4" fill="#CFFAFE"/>
                     <rect x="7" y="12" width="6" height="3" fill="#CFFAFE"/>
                 </g>
-                <!-- 유리잔 테두리 & 배경 -->
                 <rect x="5" y="3" width="10" height="1" fill="#D1D5DB"/>
                 <rect x="4" y="4" width="1" height="4" fill="#D1D5DB"/>
                 <rect x="15" y="4" width="1" height="4" fill="#D1D5DB"/>
@@ -251,15 +266,13 @@
                 <rect x="6" y="12" width="1" height="3" fill="#D1D5DB"/>
                 <rect x="13" y="12" width="1" height="3" fill="#D1D5DB"/>
                 <rect x="7" y="15" width="6" height="1" fill="#D1D5DB"/>
-                <rect x="13" y="4" width="1" height="3" fill="#FFF"/> <!-- 빛 반사 -->
+                <rect x="13" y="4" width="1" height="3" fill="#FFF"/>
 
-                <!-- 손가락 3개 (검지, 중지, 약지) -->
                 <rect x="14" y="10" width="6" height="10" fill="#fff4cc"/>
-                <rect x="8" y="7" width="7" height="3" fill="#fff4cc"/> <!-- 검지 -->
-                <rect x="7" y="10" width="8" height="3" fill="#fff4cc"/> <!-- 중지 -->
-                <rect x="8" y="13" width="7" height="3" fill="#fff4cc"/> <!-- 약지 -->
+                <rect x="8" y="7" width="7" height="3" fill="#fff4cc"/>
+                <rect x="7" y="10" width="8" height="3" fill="#fff4cc"/>
+                <rect x="8" y="13" width="7" height="3" fill="#fff4cc"/>
                 
-                <!-- 손가락 구분선(음영) -->
                 <rect x="8" y="9" width="7" height="1" fill="#B45309" opacity="0.3"/>
                 <rect x="7" y="12" width="8" height="1" fill="#B45309" opacity="0.3"/>
                 <rect x="8" y="15" width="7" height="1" fill="#B45309" opacity="0.3"/>
@@ -283,13 +296,11 @@
             chatLog.appendChild(div);
             chatLog.scrollTop = chatLog.scrollHeight;
             
-            // 🌟 짠! 애니메이션 요소 생성
             const wrapper = document.createElement('div');
             wrapper.className = 'toast-wrapper';
             wrapper.style.left = (Math.random() * 60 + 20) + '%';
             wrapper.style.top = (Math.random() * 60 + 20) + '%';
             
-            // 왼쪽, 오른쪽 손을 각각 매칭하여 삽입
             wrapper.innerHTML = `
                 <div class="toast-text">JJAN!</div>
                 <div class="toast-glass-container">
@@ -302,20 +313,32 @@
             `;
             
             document.body.appendChild(wrapper);
-            
-            // 속도가 1.2초로 빨라졌으므로 1200ms 뒤에 DOM에서 제거
             setTimeout(() => wrapper.remove(), 1200);
         });
 
+        // 🌟 수정됨: ESC 키 누를 때 메뉴 팝업도 같이 닫히게 처리
         window.addEventListener('keydown', (e) => { 
             if(e.key === 'Escape') {
                 document.getElementById('boardPopup').style.display = 'none'; 
                 document.getElementById('noticePopup').style.display = 'none';
+                document.getElementById('menuPopup').style.display = 'none';
             }
         });
 
         document.getElementById('noticeToggleBtn').onclick = () => {
             document.getElementById('noticePopup').style.display = 'flex';
+        }
+
+        // 🌟 새로 추가됨: 메뉴 버튼 눌렀을 때 메시지 자동 전송
+        function sendQuickMenuMessage(msg) {
+            socket.emit('chat message', { nickname: myNickname, message: msg });
+            document.getElementById('menuPopup').style.display = 'none'; // 메뉴창 닫기
+        }
+
+        // 🌟 새로 추가됨: 사장님 호출 버튼을 누르면 Inquiries 보드 열기
+        function openInquiriesBoard() {
+            document.getElementById('menuPopup').style.display = 'none'; // 메뉴창 닫고
+            document.getElementById('boardPopup').style.display = 'flex'; // 보드 팝업 열기
         }
 
         document.getElementById('boardSubmitBtn').onclick = () => {
