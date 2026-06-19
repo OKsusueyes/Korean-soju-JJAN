@@ -467,7 +467,7 @@
                             tempPassword = pwd;
                             const text = content.innerText;
                             content.outerHTML = `<textarea id="noticeContent" style="padding: 15px; width: 100%; box-sizing: border-box; font-family: 'DungGeunMo'; border: 2px solid #000; min-height: 100px; resize: none; margin-top: 10px;">${text}</textarea>`;
-                            noticeEditBtn.innerText = "💾";
+                            noticeEditBtn.innerText = "💾 Save";
                         }
                     } else {
                         socket.emit('update notice', { password: tempPassword, notice: content.value });
