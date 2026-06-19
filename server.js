@@ -73,3 +73,13 @@ io.on('connection', (socket) => {
 
         // 🌟 아까 기억해둔 닉네임이 있다면 모두에게 퇴장 알림 전송
         if (socket.nickname) {
+            io.emit('user left notification', socket.nickname);
+        }
+    }); // <-- 여기서부터 잘려있던 괄호들을 무사히 닫았습니다!
+});
+
+// <-- 서버를 실제로 작동시키는 부분 복구 완료!
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Soju JJAN 서버가 포트 ${PORT}에서 신나게 실행 중입니다! 🍻`);
+});
