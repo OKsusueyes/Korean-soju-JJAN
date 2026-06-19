@@ -14,9 +14,14 @@
         /* 전체 폰트 둥근모꼴 강제 적용 */
         * { font-family: 'DungGeunMo', sans-serif; }
 
+        /* 🌟 수정됨: 배경 이미지 적용 */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
-            background-color: #ffffff;
+            background-color: #ffffff; /* 이미지가 없을 때 기본 색상 */
+            background-image: url('background.png'); /* 👈 사용할 배경 이미지 파일명으로 바꿔주세요! */
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
         }
 
         #main-area { width: 100%; height: 100%; position: relative; z-index: 1; }
@@ -74,7 +79,7 @@
         .close-btn { background: none; border: none; cursor: pointer; font-family: 'DungGeunMo', sans-serif; }
         #boardInput::placeholder { font-style: italic; color: #888; }
 
-        /* 🌟 수정됨: 애니메이션이 다른 UI를 가리지 않도록 z-index를 10으로 낮춤 */
+        /* 비트맵 짠! 애니메이션 스타일 */
         .toast-wrapper {
             position: absolute; width: 160px; height: 120px;
             transform: translate(-50%, -50%); pointer-events: none; z-index: 10;
@@ -191,12 +196,12 @@
                 <b style="font-size: 1.1rem;">📝 Inquiries !!!</b>
                 <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('boardPopup').style.display='none'">X</button>
             </div>
-            <div style="font-size: 0.75rem; color: #888; font-style: italic; margin-top: 4px;">Leave a Message to Sujin</div>
+            <div style="font-size: 0.75rem; color: #888; font-style: italic; margin-top: 4px;">Leave a Message for Sujin</div>
         </div>
         
         <div style="display: flex; flex-direction: column; margin-top: 15px; flex: 1; overflow: hidden;">
             <div style="display: flex; gap: 8px; width: 100%; box-sizing: border-box; padding-bottom: 6px;">
-                <input type="text" id="boardInput" style="flex: 1; width: 150px; height: 33px; padding: 0 10px; border: 2px solid #000; border-radius: 6px; background: #fff; outline: none; box-sizing: border-box; text-align: left; font-size: 0.8rem;" placeholder="Order...">
+                <input type="text" id="boardInput" style="flex: 1; width: 150px; height: 33px; padding: 0 10px; border: 2px solid #000; border-radius: 6px; background: #fff; outline: none; box-sizing: border-box; text-align: left; font-size: 0.8rem;" placeholder="text...">
                 <button id="boardSubmitBtn" class="btn-style" style="height: 33px; margin: 0; padding: 0 15px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #50C878; font-weight: normal; font-size: 0.8rem; flex-shrink: 0; box-sizing: border-box; line-height: 1;">Clame💢</button>
             </div>
             <hr style="width: 100%; border: 1px dashed #ccc; margin: 10px 0 15px 0; flex-shrink: 0;">
