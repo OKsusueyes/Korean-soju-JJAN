@@ -24,7 +24,6 @@
 
         #main-area { width: 100%; height: 100%; position: relative; z-index: 1; }
 
-        /* 🌟 새로 추가됨: 예약 확인(Intro) 오버레이 화면 */
         #introOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); z-index: 9999;
@@ -35,36 +34,32 @@
         .intro-box { text-align: center; animation: fadeIn 0.5s ease-out forwards; }
         .intro-box h2 { font-size: 1.8rem; margin-bottom: 20px; line-height: 1.5; }
         
-        .ui-container { position: absolute; top: 20px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 20; }
+        .ui-container { position: absolute; top: 20px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 20; max-height: 90%; overflow-y: auto; padding-right: 5px;}
         .btn-style { padding: 8px 12px; background: #fff; border: 3px solid #000; cursor: pointer; color: #000; width: max-content; font-family: 'DungGeunMo'; font-weight: bold; }
         .btn-style:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
 
-        /* 채팅 컨테이너 */
         #chat-wrapper {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 저기요! 버튼 */
         #board-trigger { 
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30;
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
             padding: 10px 20px; text-align: center; font-weight: bold; font-size: 1.3rem; 
-            cursor: pointer; width: max-content; margin: 0 auto; 
+            cursor: pointer; width: max-content; 
         }
 
         #chat-log { height: 120px; overflow-y: auto; background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
         .log-item { font-size: 0.9rem; margin-bottom: 5px; }
         
         .log-nickname { background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold; display: inline-block; border-radius: 4px; }
-
-        /* 입장/퇴장 메시지 스타일 */
         .log-notice { color: #333; font-style: italic; background: rgba(255,255,255,0.7); padding: 4px; border-radius: 4px; font-size: 0.8rem; text-align: center;}
 
         .input-wrapper { display: flex; gap: 5px; }
         input[type="text"] { flex: 1; padding: 8px; border: 2px solid #000; outline: none; font-family: 'DungGeunMo'; }
         #sendBtn { padding: 8px 15px; background: #50C878; color: #000; border: 2px solid #000; cursor: pointer; font-weight: bold; }
 
-        /* 공통 팝업 스타일 */
         .popup { 
             display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             width: 320px; background: #fff; padding: 20px; border-radius: 5px; z-index: 100; 
@@ -99,65 +94,32 @@
             display: flex; align-items: center; justify-content: center;
             animation: fadeOutWrapper 1.2s ease-in-out forwards; 
         }
-
         .toast-text {
             position: absolute; font-size: 3.5rem; color: #fff700; font-weight: bold;
             text-shadow: 3px 3px 0 #000, -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000;
             z-index: 1; opacity: 0; top: 0;
             animation: textPopUp 1.2s ease-in-out forwards;
         }
-
         .toast-glass-container {
             position: relative; width: 100%; height: 100%;
             display: flex; justify-content: space-between; align-items: flex-end;
             z-index: 2;
         }
-
         .hand-left { animation: clinkLeft 1.2s ease-in-out forwards; }
         .hand-right { animation: clinkRight 1.2s ease-in-out forwards; }
         .liquid-group { animation: splashLiquid 1.2s ease-in-out forwards; transform-origin: bottom center; }
-
         .pixel-drop {
-            position: absolute; width: 6px; height: 6px; background: #A5F3FC; border: 2px solid #000;
-            z-index: 3; opacity: 0;
+            position: absolute; width: 6px; height: 6px; background: #A5F3FC; border: 2px solid #000; z-index: 3; opacity: 0;
         }
         .drop1 { top: 20px; left: 60px; animation: dropsPop1 1.2s ease-in-out forwards; }
         .drop2 { top: 10px; left: 80px; animation: dropsPop2 1.2s ease-in-out forwards; }
         .drop3 { top: 25px; left: 100px; animation: dropsPop3 1.2s ease-in-out forwards; }
 
-        @keyframes fadeOutWrapper {
-            0%, 75% { opacity: 1; transform: translate(-50%, -50%); }
-            100% { opacity: 0; transform: translate(-50%, -60%); }
-        }
-        
-        @keyframes textPopUp {
-            0%, 35% { transform: scale(0.5) translateY(20px); opacity: 0; }
-            40% { transform: scale(1.1) translateY(-15px) rotate(-5deg); opacity: 1; }
-            45%, 75% { transform: scale(1) translateY(-10px) rotate(0deg); opacity: 1; }
-            100% { transform: scale(1) translateY(-10px); opacity: 0; }
-        }
-
-        @keyframes clinkLeft {
-            0% { transform: translateX(-60px) translateY(10px) rotate(-15deg); opacity: 0; }
-            15% { opacity: 1; }
-            40%, 55% { transform: translateX(5px) translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateX(5px) translateY(0) rotate(0deg); opacity: 1; }
-        }
-
-        @keyframes clinkRight {
-            0% { transform: translateX(60px) translateY(10px) rotate(15deg); opacity: 0; }
-            15% { opacity: 1; }
-            40%, 55% { transform: translateX(-5px) translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateX(-5px) translateY(0) rotate(0deg); opacity: 1; }
-        }
-
-        @keyframes splashLiquid {
-            0%, 35% { transform: translateY(0); }
-            40% { transform: translateY(-3px); }
-            50% { transform: translateY(1px); }
-            65%, 100% { transform: translateY(0); }
-        }
-
+        @keyframes fadeOutWrapper { 0%, 75% { opacity: 1; transform: translate(-50%, -50%); } 100% { opacity: 0; transform: translate(-50%, -60%); } }
+        @keyframes textPopUp { 0%, 35% { transform: scale(0.5) translateY(20px); opacity: 0; } 40% { transform: scale(1.1) translateY(-15px) rotate(-5deg); opacity: 1; } 45%, 75% { transform: scale(1) translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: scale(1) translateY(-10px); opacity: 0; } }
+        @keyframes clinkLeft { 0% { transform: translateX(-60px) translateY(10px) rotate(-15deg); opacity: 0; } 15% { opacity: 1; } 40%, 55% { transform: translateX(5px) translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateX(5px) translateY(0) rotate(0deg); opacity: 1; } }
+        @keyframes clinkRight { 0% { transform: translateX(60px) translateY(10px) rotate(15deg); opacity: 0; } 15% { opacity: 1; } 40%, 55% { transform: translateX(-5px) translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateX(-5px) translateY(0) rotate(0deg); opacity: 1; } }
+        @keyframes splashLiquid { 0%, 35% { transform: translateY(0); } 40% { transform: translateY(-3px); } 50% { transform: translateY(1px); } 65%, 100% { transform: translateY(0); } }
         @keyframes dropsPop1 { 0%, 35% { transform: scale(0) translateY(0); opacity: 0; } 40% { transform: scale(1) translateY(-15px); opacity: 1; } 60%, 100% { transform: scale(0) translateY(-25px); opacity: 0; } }
         @keyframes dropsPop2 { 0%, 37% { transform: scale(0) translateY(0); opacity: 0; } 42% { transform: scale(1.2) translateY(-20px); opacity: 1; } 65%, 100% { transform: scale(0) translateY(-35px); opacity: 0; } }
         @keyframes dropsPop3 { 0%, 39% { transform: scale(0) translateY(0); opacity: 0; } 44% { transform: scale(0.8) translateY(-10px); opacity: 1; } 62%, 100% { transform: scale(0) translateY(-20px); opacity: 0; } }
@@ -173,11 +135,9 @@
                 <button class="btn-style" onclick="showIntroNo()">No</button>
             </div>
         </div>
-
         <div id="introStepNo" class="intro-box" style="display: none;">
             <h2>I'm sorry, but we only accept<br>guests with reservations. 🙅🏻‍♀️</h2>
         </div>
-
         <div id="introStepYes" class="intro-box" style="display: none;">
             <h2>Then, Name? ✍️</h2>
             <div style="display: flex; gap: 8px; justify-content: center;">
@@ -196,18 +156,33 @@
             </div>
 
             <div id="counterBoard" class="btn-style" style="cursor: default; text-align: left; font-size: 0.9rem; line-height: 1.5; padding: 10px;">
+                <b>[My Status]</b><br>
                 🍾 Soju: <span id="sojuCountText">0</span><br>
                 🥤 Soda: <span id="sodaCountText">0</span>
+            </div>
+
+            <div id="rankingBoard" class="btn-style" style="cursor: default; text-align: left; font-size: 0.85rem; line-height: 1.5; padding: 10px;">
+                <b style="font-size: 0.9rem; display: block; border-bottom: 2px dashed #000; padding-bottom: 4px; margin-bottom: 6px;">Who's the big drinker here?😵‍💫🍾🍺</b>
+                
+                <div style="color: #198754; font-weight: bold; margin-top: 5px;">[Top 3 Soju]</div>
+                <div id="sojuRankingList" style="margin-left: 5px;">
+                    1. -<br>2. -<br>3. -
+                </div>
+                
+                <div style="color: #0d6efd; font-weight: bold; margin-top: 8px;">[Top 3 Soda]</div>
+                <div id="sodaRankingList" style="margin-left: 5px;">
+                    1. -<br>2. -<br>3. -
+                </div>
             </div>
 
             <button class="btn-style" onclick="document.getElementById('tipsPopup').style.display='flex'">👍🏻TIPS for Staff</button>
         </div>
 
+        <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
+            Jeo Gi Yo!🙋🏻‍♀️
+        </div>
+
         <div id="chat-wrapper">
-            <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
-                Jeo Gi Yo!🙋🏻‍♀️
-            </div>
-            
             <div id="chat-log"></div>
             <div class="input-wrapper">
                 <input type="text" id="chatInput" maxlength="30" placeholder="Message... (Max 30 chars)" autocomplete="off">
@@ -237,7 +212,6 @@
             </div>
             <div style="font-size: 0.75rem; color: #888; font-style: italic; margin-top: 4px;">Leave a Message for Sujin</div>
         </div>
-        
         <div style="display: flex; flex-direction: column; margin-top: 15px; flex: 1; overflow: hidden;">
             <div style="display: flex; gap: 8px; width: 100%; box-sizing: border-box; padding-bottom: 6px;">
                 <input type="text" id="boardInput" style="flex: 1; width: 150px; height: 33px; padding: 0 10px; border: 2px solid #000; border-radius: 6px; background: #fff; outline: none; box-sizing: border-box; text-align: left; font-size: 0.8rem;" placeholder="text...">
@@ -273,10 +247,11 @@
     <script>
         const socket = io();
 
-        // 🌟 수정됨: 접속 시 닉네임을 나중에 설정하기 위해 빈 값으로 둡니다.
         let myNickname = "";
+        let myChatCount = 0;
+        let sojuBottleCount = 0;
+        let sodaBottleCount = 0;
 
-        // ----- 🌟 새로 추가됨: 예약 확인 로직 -----
         function showIntroNo() {
             document.getElementById('introStep1').style.display = 'none';
             document.getElementById('introStepNo').style.display = 'block';
@@ -295,13 +270,11 @@
                 return;
             }
             
-            myNickname = inputName; // 닉네임 확정
-            document.getElementById('introOverlay').style.display = 'none'; // 오버레이 끄기
+            myNickname = inputName; 
+            document.getElementById('introOverlay').style.display = 'none'; 
             
-            // 🌟 서버에 내 접속 알리기 (다른 사람들에게 표시됨)
             socket.emit('user joined', myNickname);
 
-            // 🌟 내 화면(로컬) 채팅창에 전용 알림 표시
             const div = document.createElement('div');
             div.className = 'log-item log-notice';
             div.innerHTML = `👋 Me(${myNickname}) get in the Korean BBQ .`;
@@ -309,33 +282,30 @@
             document.getElementById('chat-log').scrollTop = document.getElementById('chat-log').scrollHeight;
         }
 
-        // 닉네임 입력창에서 엔터 누르면 입장
         document.getElementById('nicknameInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') enterBBQ();
         });
-        // ------------------------------------------
 
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatLog = document.getElementById('chat-log');
-
-        let myChatCount = 0;
-        let sojuBottleCount = 0;
-        let sodaBottleCount = 0;
 
         function updateCounterUI() {
             document.getElementById('sojuCountText').innerText = sojuBottleCount;
             document.getElementById('sodaCountText').innerText = sodaBottleCount;
         }
 
+        // 🌟 수정됨: 서버로 버튼 클릭 정보 전송
         function addSoju() {
             sojuBottleCount++;
             updateCounterUI();
+            socket.emit('add beverage', { nickname: myNickname, type: 'soju' });
         }
 
         function addSoda() {
             sodaBottleCount++;
             updateCounterUI();
+            socket.emit('add beverage', { nickname: myNickname, type: 'soda' });
         }
 
         const leftHandSVG = `
@@ -405,6 +375,8 @@
             if (myChatCount % 10 === 0) {
                 sojuBottleCount++;
                 updateCounterUI();
+                // 🌟 수정됨: 채팅으로 1병 추가될 때도 서버로 전송
+                socket.emit('add beverage', { nickname: myNickname, type: 'soju' });
             }
         }
 
@@ -429,6 +401,15 @@
             div.innerHTML = `💨 ${nickname} got drunk and says they're going home.`;
             chatLog.appendChild(div);
             chatLog.scrollTop = chatLog.scrollHeight;
+        });
+
+        // 🌟 새로 추가됨: 서버로부터 랭킹 정보 받아서 UI 업데이트
+        socket.on('update rankings', (data) => {
+            const sojuHTML = data.sojuRank.map((user, index) => `${index + 1}. ${user.nickname} (${user.count}병)`).join('<br>') || "1. -<br>2. -<br>3. -";
+            const sodaHTML = data.sodaRank.map((user, index) => `${index + 1}. ${user.nickname} (${user.count}병)`).join('<br>') || "1. -<br>2. -<br>3. -";
+            
+            document.getElementById('sojuRankingList').innerHTML = sojuHTML;
+            document.getElementById('sodaRankingList').innerHTML = sodaHTML;
         });
 
         socket.on('chat message', (data) => {
@@ -463,7 +444,7 @@
                 document.getElementById('boardPopup').style.display = 'none'; 
                 document.getElementById('noticePopup').style.display = 'none';
                 document.getElementById('menuPopup').style.display = 'none';
-                document.getElementById('tipsPopup').style.display = 'none';
+                document.getElementById('tipsPopup').style.display = 'none'; 
             }
         });
 
