@@ -11,14 +11,12 @@
             font-weight: normal; font-style: normal;
         }
 
-        /* 전체 폰트 둥근모꼴 강제 적용 */
         * { font-family: 'DungGeunMo', sans-serif; }
 
-        /* 🌟 수정됨: 배경 이미지 적용 */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
-            background-color: #ffffff; /* 이미지가 없을 때 기본 색상 */
-            background-image: url('background.png'); /* 👈 사용할 배경 이미지 파일명으로 바꿔주세요! */
+            background-color: #ffffff;
+            background-image: url('background.png'); 
             background-size: cover; 
             background-position: center; 
             background-repeat: no-repeat;
@@ -35,12 +33,11 @@
             width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 20;
         }
 
-        /* 저기요! 버튼 */
+        /* 🌟 수정됨: 저기요 버튼이 다시 채팅창 바로 위로 오도록 위치 속성 제거 */
         #board-trigger { 
-            position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30;
             background: rgba(255, 255, 255, 0.5); border: 2px solid #000; 
             padding: 10px 20px; text-align: center; font-weight: bold; font-size: 1.3rem; 
-            cursor: pointer; width: max-content; 
+            cursor: pointer; width: max-content; margin: 0 auto; 
         }
 
         #chat-log { height: 120px; overflow-y: auto; background: rgba(200, 200, 200, 0.6); border: 2px solid #000; padding: 10px; }
@@ -48,11 +45,14 @@
         
         .log-nickname { background: #50C878; color: #000; padding: 2px 5px; margin-right: 5px; font-weight: bold; display: inline-block; border-radius: 4px; }
 
+        /* 입장/퇴장 메시지 스타일 */
+        .log-notice { color: #333; font-style: italic; background: rgba(255,255,255,0.7); padding: 4px; border-radius: 4px; font-size: 0.8rem; text-align: center;}
+
         .input-wrapper { display: flex; gap: 5px; }
         input[type="text"] { flex: 1; padding: 8px; border: 2px solid #000; outline: none; }
         #sendBtn { padding: 8px 15px; background: #50C878; color: #000; border: 2px solid #000; cursor: pointer; font-weight: bold; }
 
-        /* 공통 팝업 스타일 */
+        /* 공통 팝업 스타일 & 🌟 수정됨: 부드러운 애니메이션(fade-anim) 추가 */
         .popup { 
             display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             width: 320px; background: #fff; padding: 20px; border-radius: 5px; z-index: 100; 
@@ -60,7 +60,9 @@
             flex-direction: column; gap: 10px; box-sizing: border-box;
         }
         
-        /* 메뉴 버튼 전용 스타일 */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .fade-anim { animation: fadeIn 0.3s ease-out forwards; }
+
         .menu-btn {
             width: 100%; padding: 12px; font-size: 1rem; border-radius: 6px;
             background: #fff; border: 2px solid #000; cursor: pointer; font-weight: bold;
@@ -69,7 +71,6 @@
         }
         .menu-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
 
-        /* 영수증 팝업 전용 스타일 */
         #boardPopup {
             top: 20px; left: auto; right: 20px; transform: none; height: calc(100% - 40px); 
             background: #F5F5F5; border-radius: 12px; box-shadow: 8px 8px 0px rgba(80, 200, 120, 0.5); 
@@ -79,7 +80,7 @@
         .close-btn { background: none; border: none; cursor: pointer; font-family: 'DungGeunMo', sans-serif; }
         #boardInput::placeholder { font-style: italic; color: #888; }
 
-        /* 비트맵 짠! 애니메이션 스타일 */
+        /* 짠! 애니메이션 스타일 유지 */
         .toast-wrapper {
             position: absolute; width: 160px; height: 120px;
             transform: translate(-50%, -50%); pointer-events: none; z-index: 10;
@@ -156,17 +157,27 @@
         <div class="ui-container">
             <button id="noticeToggleBtn" class="btn-style">📢 Notice</button>
             
+            <!-- 🌟 새로 추가됨: 온라인 접속자 수 표시 -->
+            <div class="btn-style" style="cursor: default; font-size: 0.9rem;">
+                Current Guest qty.: <span id="userCount">1</span>
+            </div>
+
+            <!-- 소주/사이다 카운터 -->
             <div id="counterBoard" class="btn-style" style="cursor: default; text-align: left; font-size: 0.9rem; line-height: 1.5; padding: 10px;">
                 🍾 Soju: <span id="sojuCountText">0</span><br>
                 🥤 Soda: <span id="sodaCountText">0</span>
             </div>
-        </div>
 
-        <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
-            Jeo Gi Yo!🙋🏻‍♀️
+            <!-- 🌟 새로 추가됨: TIPS 버튼 -->
+            <button class="btn-style" onclick="document.getElementById('tipsPopup').style.display='flex'">👍🏻TIPS for Staff</button>
         </div>
 
         <div id="chat-wrapper">
+            <!-- 🌟 수정됨: 다시 채팅창 바로 위로 배치된 저기요 버튼 -->
+            <div id="board-trigger" onclick="document.getElementById('menuPopup').style.display='flex'">
+                Jeo Gi Yo!🙋🏻‍♀️
+            </div>
+            
             <div id="chat-log"></div>
             <div class="input-wrapper">
                 <input type="text" id="chatInput" maxlength="30" placeholder="Message... (Max 30 chars)" autocomplete="off">
@@ -175,7 +186,8 @@
         </div>
     </div>
 
-    <div id="menuPopup" class="popup">
+    <!-- 메뉴 팝업 (부드러운 애니메이션 적용) -->
+    <div id="menuPopup" class="popup fade-anim">
         <div style="color: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
             <b style="font-size: 1.1rem;">🔔 Options</b>
             <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('menuPopup').style.display='none'">X</button>
@@ -183,14 +195,13 @@
         <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
             <button class="menu-btn" onclick="addSoju()">Add Soju</button>
             <button class="menu-btn" onclick="addSoda()">Add Soda</button>
-            
             <button class="menu-btn" onclick="window.open('https://docs.google.com/forms/d/1xkJdB_npCP-J09uFE-vsyuvH-VC7SKgii2T2p6Gnx7A/edit', '_blank'); document.getElementById('menuPopup').style.display='none';">Other Request</button>
-            
             <button class="menu-btn" onclick="openInquiriesBoard()" style="background: #50C878; border-color: #000;">Call the Sa-Jang-Nim(Boss)</button>
         </div>
     </div>
 
-    <div id="boardPopup" class="popup">
+    <!-- Inquiries 팝업 -->
+    <div id="boardPopup" class="popup fade-anim">
         <div style="color: #000; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <b style="font-size: 1.1rem;">📝 Inquiries !!!</b>
@@ -209,7 +220,8 @@
         </div>
     </div>
 
-    <div id="noticePopup" class="popup">
+    <!-- Notice 팝업 (부드러운 애니메이션 적용) -->
+    <div id="noticePopup" class="popup fade-anim">
         <div style="color: #000; display: flex; justify-content: space-between;">
             <b>📢 Notice</b>
             <button class="close-btn" style="color:#000;" onclick="document.getElementById('noticePopup').style.display='none'">X</button>
@@ -220,12 +232,27 @@
         <button id="noticeEditBtn" class="btn-style" style="align-self: flex-end; margin-top: 10px; font-size: 0.8rem;">✏️ Edit (Admin)</button>
     </div>
 
+    <!-- 🌟 새로 추가됨: TIPS 팝업 (이미지용) -->
+    <div id="tipsPopup" class="popup fade-anim">
+        <div style="color: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">
+            <b style="font-size: 1.1rem;">💡 TIPS for Staff</b>
+            <button class="close-btn" style="color:#000; font-weight: bold; font-size: 1.1rem;" onclick="document.getElementById('tipsPopup').style.display='none'">X</button>
+        </div>
+        <div style="margin-top: 15px; text-align: center;">
+            <!-- 프로젝트에 tips.png 라는 이미지 파일이 있어야 합니다! -->
+            <img src="tips.png" alt="Tips Image" style="max-width: 100%; border-radius: 8px; border: 2px solid #000;">
+        </div>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
 
         const randomNum = String(Math.floor(Math.random() * 100)).padStart(2, '0');
         const myNickname = "Guest" + randomNum;
+
+        // 🌟 수정됨: 내 닉네임을 서버에 등록
+        socket.emit('user joined', myNickname);
 
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -323,6 +350,29 @@
         sendBtn.onclick = sendMessage;
         chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
 
+        // 🌟 새로 추가됨: 서버로부터 인원수 전달받기
+        socket.on('user count', (count) => {
+            document.getElementById('userCount').innerText = count;
+        });
+
+        // 🌟 새로 추가됨: 누군가 들어왔을 때 알림
+        socket.on('user joined notification', (nickname) => {
+            const div = document.createElement('div');
+            div.className = 'log-item log-notice';
+            div.innerHTML = `👋 ${nickname} is here to have some Korean BBQ`;
+            chatLog.appendChild(div);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        });
+
+        // 🌟 새로 추가됨: 누군가 나갔을 때 알림
+        socket.on('user left notification', (nickname) => {
+            const div = document.createElement('div');
+            div.className = 'log-item log-notice';
+            div.innerHTML = `💨 ${nickname} got drunk and says they're going home.`;
+            chatLog.appendChild(div);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        });
+
         socket.on('chat message', (data) => {
             const div = document.createElement('div');
             div.className = 'log-item';
@@ -355,6 +405,7 @@
                 document.getElementById('boardPopup').style.display = 'none'; 
                 document.getElementById('noticePopup').style.display = 'none';
                 document.getElementById('menuPopup').style.display = 'none';
+                document.getElementById('tipsPopup').style.display = 'none'; // TIPS 팝업 추가
             }
         });
 
@@ -416,7 +467,7 @@
                             tempPassword = pwd;
                             const text = content.innerText;
                             content.outerHTML = `<textarea id="noticeContent" style="padding: 15px; width: 100%; box-sizing: border-box; font-family: 'DungGeunMo'; border: 2px solid #000; min-height: 100px; resize: none; margin-top: 10px;">${text}</textarea>`;
-                            noticeEditBtn.innerText = "💾 Save";
+                            noticeEditBtn.innerText = "💾";
                         }
                     } else {
                         socket.emit('update notice', { password: tempPassword, notice: content.value });
